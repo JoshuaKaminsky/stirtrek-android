@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_height="fill_parent"
+ 			  android:layout_width="fill_parent"
+ 			  android:orientation="vertical">
+
+    <TextView android:padding="5dp"
+			  android:textSize="20sp"
+			  android:background="@color/blue_frost"
+			  android:textColor="@color/white" 
+			  android:textStyle="bold"
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  android:text="@string/speakers"/>
+    
+	<ListView android:id="@+id/speakers_listView"
+	 			  android:layout_height="fill_parent"
+	 			  android:layout_width="fill_parent"
+	 			  android:layout_gravity="fill"
+	 			  android:layout_margin="1dp"/>
+
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, scheduleActivity!</string>
+    <string name="app_name">StirTrek</string>
+    <string name="left_view_pager_button">Left View Pager Button</string>
+    <string name="right_view_pager_button">Right View Pager Button</string>
+    <string name="no_session_selected">No Session Selected</string>
+    <string name="photo">Photo</string>
+    <string name="twitter_feed">Twitter Feed</string>
+    <string name="speakers">Speakers</string>
+    <string name="my_schedule">My Schedule</string>
+    <string name="stir_trek_schedule">Stir Trek Schedule</string>
+    <string name="about">About</string>
+    <string name="about_text">Stir Trek is a one-day conference focused on teaching software developers the latest and greatest in technologies, techniques, and tools. The full day of content is always concluded with a private screening of a blockbuster film on its opening day.\n\nStir Trek Conference, Inc. is an Ohio nonprofit corporation and is pursuing tax exempt recognition from the IRS as a 501©6 Business League.\n\nhttp://stirtrek.com\n\nThis app was created by \@JoshuaKaminsky</string>
+    <string name="_no_session_selected_">** No Session Selected **</string>
+    <string name="remove_session">Remove Session</string>
+    <string name="remove_icon">Remove Icon</string>
+    <string name="speakers_">"speakers: "</string>
+    <string name="details">details</string>
+    <string name="details_image">Details Image</string>
+    <string name="twitter_refresh_icon">Twitter Refresh Icon</string>
+</resources>

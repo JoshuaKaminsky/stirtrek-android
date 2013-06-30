@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+		  android:textSize="17sp"
+		  android:id="@+id/interest_empty_list_item"
+		  android:gravity="center"
+	  	  android:textStyle="bold"
+	  	  android:padding="5dp"
+	  	  android:layout_height="wrap_content"
+	  	  android:layout_width="fill_parent"
+	  	  android:text="@string/_no_session_selected_"/>	
