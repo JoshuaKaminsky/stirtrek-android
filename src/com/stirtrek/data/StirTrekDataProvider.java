@@ -17,7 +17,7 @@ import android.util.Log;
 public class StirTrekDataProvider extends ContentProvider{
 
 	private static final String TAG = "StirTrekDataProvider";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	private static final String DATABASE_NAME = "stirtrek.db";
     private static final String INTERESTS_TABLE_NAME = "interests";
 	

@@ -1,6 +1,5 @@
 package com.android.client.utilities;
 
-import java.io.InputStream;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -10,14 +9,16 @@ public class HttpGetImageAsyncTask extends HttpGetAsyncTask<Bitmap>{
 	
 	public HttpGetImageAsyncTask(IResultCallback<Bitmap> callback) {
 		super(callback);
+		
 		_callback = callback;
 	}				
 	
 	@Override	
-	protected void onPostExecute(InputStream inputStream) {
+	protected void onPostExecute(String input) {
 		if(_callback != null)
 		{
-			Bitmap result = BitmapFactory.decodeStream(inputStream);
+			Bitmap result = BitmapFactory.decodeByteArray(input.getBytes(), 0, input.length());
+			
 			_callback.Callback(result);
 		}		
 	}		

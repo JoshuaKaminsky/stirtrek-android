@@ -8,12 +8,13 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
 
 public class HttpClientUtilities {
 
-	public static InputStream RetrieveStream(String url)
+	public static String RetrieveStream(String url)
 	{
 		DefaultHttpClient client = new DefaultHttpClient();		
 		HttpGet getRequest = new HttpGet(url);
@@ -30,8 +31,7 @@ public class HttpClientUtilities {
 						return null;					
 			}
 			
-			HttpEntity getResponseEntity = getResponse.getEntity();
-			return getResponseEntity.getContent();
+			return EntityUtils.toString(getResponse.getEntity());
 		}
 		catch (IOException e) 
 		{

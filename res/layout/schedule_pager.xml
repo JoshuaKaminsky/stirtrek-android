@@ -13,7 +13,7 @@
 			  android:layout_height="wrap_content"
 			  android:text="@string/stir_trek_schedule"/>
     
-    <android.common.TitlePageIndicator
+    <com.android.common.TitlePageIndicator
 		android:id="@+id/titles"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" />

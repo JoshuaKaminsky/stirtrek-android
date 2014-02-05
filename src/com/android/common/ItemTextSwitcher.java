@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.android.common.model.INamed;
 
-import android.R;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -32,8 +31,8 @@ public class ItemTextSwitcher<T extends INamed> extends ViewSwitcher {
 			addView(MakeView(items.get(1)));			
 		}
 		
-		setInAnimation(context, R.anim.slide_in_left);
-		setOutAnimation(context, R.anim.slide_out_right);
+		setInAnimation(context, android.R.anim.slide_in_left);
+		setOutAnimation(context, android.R.anim.slide_out_right);
 	}
 	
 	public T getItem() {
@@ -105,7 +104,7 @@ public class ItemTextSwitcher<T extends INamed> extends ViewSwitcher {
 	
 	private TextView MakeView(T item) {
 		TextView textView = new TextView(getContext());
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		layoutParams.gravity = Gravity.FILL;
 		textView.setLayoutParams(layoutParams);
 		textView.setText(item.GetName());

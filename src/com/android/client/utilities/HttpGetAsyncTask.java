@@ -1,10 +1,8 @@
 package com.android.client.utilities;
 
-import java.io.InputStream;
-
 import android.os.AsyncTask;
 
-public class HttpGetAsyncTask<T> extends AsyncTask<String, Void, InputStream>{
+public class HttpGetAsyncTask<T> extends AsyncTask<String, Void, String>{
 	
 	private IResultCallback<T> _callback;
 			
@@ -14,7 +12,7 @@ public class HttpGetAsyncTask<T> extends AsyncTask<String, Void, InputStream>{
 	}	
 
 	@Override
-	protected InputStream doInBackground(String... urls) {
+	protected String doInBackground(String... urls) {
 		//currently only supports one url call at a time
 		if(urls.length != 1)
 			return null;
@@ -23,13 +21,12 @@ public class HttpGetAsyncTask<T> extends AsyncTask<String, Void, InputStream>{
 	}
 	
 	@Override
-	protected void onPostExecute(InputStream inputStream) {
-		super.onPostExecute(inputStream);
-		
+	protected void onPostExecute(String input) {
+		super.onPostExecute(input);
+				
 		if(_callback != null)
 		{
-			T result = JsonUtilities.ParseJson(inputStream, _callback.GetType());
-			_callback.Callback(result);
+			_callback.Callback(JsonUtilities.ParseJson(input, _callback.GetType()));						
 		}		
 	}	
 }
