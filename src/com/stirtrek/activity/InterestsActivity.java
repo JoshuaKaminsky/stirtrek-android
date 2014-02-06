@@ -2,21 +2,10 @@ package com.stirtrek.activity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import stirtrek.activity.R;
-
-import com.stirtrek.adapter.InterestAdapter;
-import com.stirtrek.adapter.SessionQuickDetails;
-import com.stirtrek.application.StirTrek.App;
-import com.stirtrek.common.TimeSlotSorter;
-import com.stirtrek.model.Interest.Interests;
-import com.stirtrek.model.Response;
-import com.stirtrek.model.Session;
-import com.stirtrek.model.TimeSlot;
 import android.app.Dialog;
-import com.android.common.SeparatedListAdapter;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -32,6 +21,16 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.android.common.SeparatedListAdapter;
+import com.stirtrek.adapter.InterestAdapter;
+import com.stirtrek.adapter.SessionQuickDetails;
+import com.stirtrek.application.StirTrek.App;
+import com.stirtrek.common.TimeSlotSorter;
+import com.stirtrek.model.Interest.Interests;
+import com.stirtrek.model.Response;
+import com.stirtrek.model.Session;
+import com.stirtrek.model.TimeSlot;
 
 public class InterestsActivity extends BaseActivity implements OnItemClickListener{
 	
@@ -60,7 +59,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 		if(_data == null)
 			return;
 		
-		SparseArray<ArrayList<Session>> map = new SparseArray<ArrayList<Session>>();// new HashMap<Integer, ArrayList<Session>>();
+		SparseArray<ArrayList<Session>> map = new SparseArray<ArrayList<Session>>();
 		ArrayList<Session> sessions = new ArrayList<Session>(App.GetAllInterests());
 		for(Session session : _data.Sessions){
 			if(session.TrackId == null){
@@ -78,7 +77,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 			}				
 		}
 		
-		SeparatedListAdapter adapter = new SeparatedListAdapter(new ArrayAdapter<String>(this, R.layout.interests_list_header), this);
+		SeparatedListAdapter adapter = new SeparatedListAdapter(R.layout.interests_list_header, this);
 		
 		TimeSlot[] timeslots = _data.TimeSlots;		
 		Arrays.sort(timeslots, new TimeSlotSorter());		
@@ -87,16 +86,22 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 			
 			if(sessionList == null){
 				ArrayAdapter<String> emptyAdapter = new ArrayAdapter<String>(this,R.layout.interest_empty_list_item);
-				emptyAdapter.add("** No Session Selected **");
-				adapter.addSection(timeslot.GetName(), emptyAdapter);								
+
+				emptyAdapter.add("** click to view sessions **");		
+				
+				adapter.addSection(timeslot.GetId(), timeslot.GetName(), emptyAdapter);								
 				
 				continue;
 			}
 			else{
 				if(sessionList.get(0).TrackId == null){
 					ArrayAdapter<String> generalAdapter = new ArrayAdapter<String>(this,R.layout.interest_general_list_item);
-					generalAdapter.add(sessionList.get(0).Name);
-					adapter.addSection(timeslot.GetName(), generalAdapter);
+					
+					for (Session session : sessionList) {
+						generalAdapter.add(session.Name);
+					}					
+					
+					adapter.addSection(timeslot.GetId(), timeslot.GetName(), generalAdapter);
 					continue;
 				}
 			}			
@@ -106,7 +111,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 					sessionList, 
 					Arrays.asList(_data.Tracks));						
 			
-			adapter.addSection(timeslot.GetName(), interestAdapter);
+			adapter.addSection(timeslot.GetId(), timeslot.GetName(), interestAdapter);
 		}
 		
 		ListView listView = (ListView)findViewById(R.id.interests_listView);		
@@ -116,14 +121,20 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 	}
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Class<? extends Adapter> clazz = ((SeparatedListAdapter)parent.getAdapter()).getAdapterType(position);
+		SeparatedListAdapter listAdapter = (SeparatedListAdapter)parent.getAdapter();
+		Class<? extends Adapter> clazz = listAdapter.getAdapterType(position);
 		if(clazz == InterestAdapter.class) {
-			showDetails((Session) parent.getAdapter().getItem(position), view.getContext());
+			showDetails((Session) listAdapter.getItem(position), view.getContext());
 		}
 		else if(clazz == ArrayAdapter.class) {
 			if(view.getId() == R.id.interest_empty_list_item) {
-				//get the timeslotid and this is done!
-//				showTimeSlotOptions(xxx, view.getContext())
+				TextView textView = (TextView) view;
+				if(textView != null) {
+					TextView headerView = (TextView) listAdapter.getHeaderView(position, null, parent);
+					Integer timeSlotId = listAdapter.getSectionId(headerView.getText().toString());
+					
+					//showTimeSlotOptions(timeSlotId, view.getContext());
+				}
 			}
 			
 		}
@@ -197,5 +208,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 				details.dismiss();
 			}
 		});
+		
+		details.show();
 	}
 }

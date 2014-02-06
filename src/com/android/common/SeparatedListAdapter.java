@@ -1,7 +1,10 @@
 package com.android.common;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import com.google.gson.internal.bind.ArrayTypeAdapter;
 
 import android.content.Context;
 import android.view.View;
@@ -12,19 +15,31 @@ import android.widget.BaseAdapter;
 
 public class SeparatedListAdapter extends BaseAdapter
 {
-	public final Map<String, Adapter> _sections = new LinkedHashMap<String, Adapter>();
+	public final Map<Integer, Adapter> _sections = new LinkedHashMap<Integer, Adapter>();
 	public final ArrayAdapter<String> _headers;
+	public final ArrayList<Integer> _sectionIds = new ArrayList<Integer>();
+	
 	public final static int TYPE_SECTION_HEADER = 0;
 
-	public SeparatedListAdapter(ArrayAdapter<String> headers, Context context)
+	public SeparatedListAdapter(int headerViewResource, Context context)
 	{
-		_headers = headers; //new ArrayAdapter<String>(context, R.layout.interests_list_header);
+		_headers = new ArrayAdapter<String>(context, headerViewResource);
 	}
 
-	public void addSection(String section, Adapter adapter)
+	public void addSection(Integer id, String section, Adapter adapter)
 	{
 		this._headers.add(section);
-		this._sections.put(section, adapter);
+		this._sectionIds.add(id);
+		this._sections.put(id, adapter);
+	}
+	
+	public Integer getSectionId(String section) {
+		int position = _headers.getPosition(section);
+		
+		if(position >= 0 && position < _sectionIds.size())
+			return _sectionIds.get(_headers.getPosition(section));
+		
+		return -1;
 	}
 
 	public Object getItem(int position)
@@ -97,14 +112,31 @@ public class SeparatedListAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		int sectionnum = 0;
-		for (Object section : this._sections.keySet())
+		for (Integer sectionId : this._sections.keySet())
 		{
-			Adapter adapter = _sections.get(section);
+			Adapter adapter = _sections.get(sectionId);
 			int size = adapter.getCount() + 1;
 			
 			// check if position inside this section
 			if (position == 0) return _headers.getView(sectionnum, convertView, parent);
 			if (position < size) return adapter.getView(position - 1, convertView, parent);
+			
+			// otherwise jump into next section
+			position -= size;
+			sectionnum++;
+		}
+		return null;
+	}
+	
+	public View getHeaderView(int position, View convertView, ViewGroup parent) {
+		int sectionnum = 0;
+		for (Integer sectionId : this._sections.keySet())
+		{
+			Adapter adapter = _sections.get(sectionId);
+			int size = adapter.getCount() + 1;
+			
+			// check if position inside this section
+			if (position < size) return _headers.getView(sectionnum, convertView, parent);
 			
 			// otherwise jump into next section
 			position -= size;

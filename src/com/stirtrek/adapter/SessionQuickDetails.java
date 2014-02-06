@@ -48,19 +48,26 @@ public class SessionQuickDetails extends BaseArrayAdapter<Session> {
 		}
 		
 		TextView textView = (TextView) view.findViewById(R.id.session_quick_name);
-		textView.setText(session.Name);
-
+		if(textView != null) {
+			textView.setText(session.Name);
+		}
 		textView = (TextView) view.findViewById(R.id.session_quick_track);
-		textView.setText(track.Name);
+		if(textView != null) {
+			textView.setText(track.Name);
+		}
 
 		if (speakers.size() > 0) {
 			textView = (TextView) view.findViewById(R.id.session_quick_speaker_primary);
-			textView.setText(speakers.get(0).Name);
-
+			if(textView != null) {				
+				textView.setText(speakers.get(0).Name);
+			}
+			
 			if (speakers.size() > 1) {
 
 				textView = (TextView) view.findViewById(R.id.session_quick_speaker_secondary);
-				textView.setText(speakers.get(1).Name);
+				if(textView != null) {					
+					textView.setText(speakers.get(1).Name);
+				}
 			}
 		}
 
