@@ -3,15 +3,29 @@
 			  android:layout_width="fill_parent"
 			  android:layout_height="fill_parent"
  			  android:orientation="vertical">
-
-    <TextView android:padding="5dp"
-			  android:background="@color/blue_frost"
-			  android:textSize="20sp"
-			  android:textColor="@color/white" 
-			  android:textStyle="bold"
-			  android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
-			  android:text="@string/stir_trek_schedule"/>
+ 			  
+	<LinearLayout android:layout_width="fill_parent"
+	    		  android:layout_height="wrap_content"
+	    		  android:orientation="horizontal"
+	    		  android:padding="5dp"
+			  	  android:background="@color/blue_frost">
+	    
+	    <ImageView  android:src="@drawable/ic_launcher"
+	        		android:layout_height="30dp"
+	        		android:layout_width="30dp"	        		
+				  	android:layout_gravity="center"
+	        		android:contentDescription="@string/stir_trek_icon"/>
+	    
+	    <TextView android:textSize="20sp"
+				  android:textColor="@color/white" 
+				  android:textStyle="bold"
+				  android:layout_width="fill_parent"
+				  android:layout_height="wrap_content"
+				  android:text="@string/stir_trek_schedule"/>
+	    
+	</LinearLayout>
+    
+    
     
     <com.android.common.TitlePageIndicator
 		android:id="@+id/titles"

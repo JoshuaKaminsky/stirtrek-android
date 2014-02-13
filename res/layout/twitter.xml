@@ -4,14 +4,19 @@
  			  android:layout_width="fill_parent"
  			  android:orientation="vertical">
  
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
- 			  android:layout_height="fill_parent"
- 			  android:layout_width="fill_parent"
- 			  android:orientation="horizontal"
- 			  android:background="@color/blue_frost">
- 			  
-	    <TextView android:padding="5dp"
-				  android:textSize="20sp"
+    <LinearLayout android:layout_height="fill_parent"
+	 			  android:layout_width="fill_parent"
+	 			  android:orientation="horizontal"
+	 			  android:padding="5dp"
+				  android:background="@color/blue_frost">
+ 		        
+	    <ImageView  android:src="@drawable/ic_launcher"
+	        		android:layout_height="30dp"
+	        		android:layout_width="30dp"	        		
+				  	android:layout_gravity="center"
+	        		android:contentDescription="@string/stir_trek_icon"/>
+	    
+	    <TextView android:textSize="20sp"
 				  android:layout_weight="1"
 				  android:layout_gravity="left"
 				  android:textColor="@color/white" 
