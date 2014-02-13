@@ -1,6 +1,5 @@
 package com.android.client.utilities;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.http.HttpEntity;
@@ -16,30 +15,54 @@ public class HttpClientUtilities {
 
 	public static String RetrieveStream(String url)
 	{
-		DefaultHttpClient client = new DefaultHttpClient();		
-		HttpGet getRequest = new HttpGet(url);
-		
-		try
-		{
-			HttpResponse getResponse = client.execute(getRequest);
-			final int statusCode = getResponse.getStatusLine().getStatusCode();
-			
-			if(statusCode != HttpStatus.SC_OK)
-			{
-				Log.w("HttpClientUtilities.RetrieveStream(String url)",
-						"Error " + statusCode + " for URL " + url);
-						return null;					
+		HttpEntity entity = RetrieveHttpEntity(url);
+		if(entity != null) {		
+			try {
+				return EntityUtils.toString(entity);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			
-			return EntityUtils.toString(getResponse.getEntity());
 		}
-		catch (IOException e) 
-		{
-			getRequest.abort();
-			Log.w("HttpClientUtilities.RetrieveStream(String url)",
-					"Error for URL " + url, e);
+		
+		return null;
+	}
+	
+
+	public static InputStream RetrieveStreamContent(String url)
+	{
+		HttpEntity entity = RetrieveHttpEntity(url);
+		if(entity != null) {		
+			try {
+				return entity.getContent();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return null;
 	}	
+
+	private static HttpEntity RetrieveHttpEntity(String url) {
+		DefaultHttpClient client = new DefaultHttpClient();		
+		HttpGet getRequest = new HttpGet(url);
+		
+		HttpResponse getResponse;
+		try {
+			getResponse = client.execute(getRequest);
+		} catch (Exception e) {			
+			e.printStackTrace();
+			return null;
+		}
+		
+		final int statusCode = getResponse.getStatusLine().getStatusCode();
+		
+		if(statusCode != HttpStatus.SC_OK)
+		{
+			Log.w("HttpClientUtilities.RetrieveStream(String url)",
+					"Error " + statusCode + " for URL " + url);
+					return null;					
+		}
+							
+		return getResponse.getEntity();
+	}
 }

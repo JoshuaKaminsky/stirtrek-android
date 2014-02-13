@@ -18,6 +18,7 @@ public class MainActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		App.RefreshCache(this);
 		App.RefreshInterests(getContentResolver());
 	    App.RefreshResponse();
 		

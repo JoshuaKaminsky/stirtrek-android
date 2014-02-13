@@ -24,4 +24,13 @@ public class JsonUtilities{
 		
 		return gson.fromJson(reader, type);
 	}
+	
+	public static <T extends Object> String GetJson(T input)  {
+		if(input == null)
+			return "";
+		
+		Gson gson = new Gson();
+		
+		return gson.toJson(input);
+	}
 }
