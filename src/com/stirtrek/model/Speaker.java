@@ -9,6 +9,8 @@ public class Speaker implements IIdentifier{
 
 	public String Bio;
 	
+	public String ImageUrl;
+	
 	public int GetId() {
 		return Id;
 	}
