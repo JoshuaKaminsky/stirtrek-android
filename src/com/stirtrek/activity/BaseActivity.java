@@ -46,7 +46,7 @@ public class BaseActivity extends Activity implements ITouchListener{
 		super.onCreate(savedInstanceState);
 		
 		RelativeLayout relativeLayout = new RelativeLayout(this);
-		relativeLayout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		relativeLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		
 		View view = LayoutInflater.from(this).inflate(_layoutResource, null);
 		

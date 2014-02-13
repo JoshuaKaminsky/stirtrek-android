@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.google.gson.internal.bind.ArrayTypeAdapter;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
