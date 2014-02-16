@@ -20,4 +20,5 @@
     <string name="details_image">Details Image</string>
     <string name="twitter_refresh_icon">Twitter Refresh Icon</string>
     <string name="stir_trek_icon">Stir Trek Icon</string>
+    <string name="stir_trek_session">Session Information</string>
 </resources>
