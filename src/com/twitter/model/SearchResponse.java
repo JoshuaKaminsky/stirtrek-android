@@ -1,12 +1,10 @@
 package com.twitter.model;
 
-import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
 
 public class SearchResponse {
     
-    public List<Result> results;
+    public Result[] results;
     
     @SerializedName("max_id")
     public long maxId;

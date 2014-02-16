@@ -133,7 +133,7 @@ public final class StirTrek {
 			}
 			
 			List<Session> interests = new ArrayList<Session>(); 			
-			List<Session> sessions = Arrays.asList(_response.Sessions);
+			Session[] sessions = _response.Sessions;
 			
 			for(Interest interest : _interests) {					
 				Session session = CollectionUtilities.GetItem(interest.SessionId, sessions);
@@ -147,7 +147,7 @@ public final class StirTrek {
 		
 		public static List<Session> GetInterest(int timeslotId) {
 			List<Session> interests = new ArrayList<Session>(); 			
-			List<Session> sessions = Arrays.asList(_response.Sessions);
+			Session[] sessions = _response.Sessions;
 			
 			for(Interest interest : _interests) {
 				if(interest.TimeSlotId == timeslotId) {

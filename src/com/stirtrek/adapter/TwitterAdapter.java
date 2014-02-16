@@ -1,6 +1,5 @@
 package com.stirtrek.adapter;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,7 +8,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import stirtrek.activity.R;
-import com.twitter.model.Result;
 import android.content.Context;
 import android.text.format.Time;
 import android.text.util.Linkify;
@@ -18,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.twitter.model.Result;
+
 public class TwitterAdapter extends BaseArrayAdapter<Result>{
 	
-	public TwitterAdapter(Context context, List<Result> objects) {
+	public TwitterAdapter(Context context, Result[] objects) {
 		super(context, R.layout.twitter_list_item, objects);
 
 	}

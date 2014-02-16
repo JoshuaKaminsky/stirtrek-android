@@ -41,8 +41,8 @@ public class SessionAdapter extends AlternatingListViewAdapter<Session> implemen
 	private SparseArray<TimeSlot> _timeslots;
 	private SparseArray<Speaker> _speakers;
 
-	public SessionAdapter(Context context, List<Session> objects, 
-			List<TimeSlot> timeSlots, List<Speaker> speakers) {
+	public SessionAdapter(Context context, Session[] objects, 
+			TimeSlot[] timeSlots, Speaker[] speakers) {
 		super(context, R.layout.schedule_list_item, objects);
 
 		_timeslots = new SparseArray<TimeSlot>();// new HashMap<Integer, TimeSlot>();
@@ -72,7 +72,7 @@ public class SessionAdapter extends AlternatingListViewAdapter<Session> implemen
 		}
 
 		TextView textView = (TextView) view.findViewById(R.id.schedule_time);
-		textView.setText(timeSlot.StartTime + " - " + timeSlot.EndTime);
+		textView.setText(timeSlot.GetName());
 
 		textView = (TextView) view.findViewById(R.id.session_name);
 		textView.setText(session.Name);

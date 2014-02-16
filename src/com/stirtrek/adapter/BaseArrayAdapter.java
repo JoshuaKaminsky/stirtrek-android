@@ -1,7 +1,5 @@
 package com.stirtrek.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +12,13 @@ public class BaseArrayAdapter<T> extends ArrayAdapter<T>{
 	protected LayoutInflater _inflater;
 	private int _count;		
 	
-	public BaseArrayAdapter(Context context, int layoutId, List<T> objects) {
+	public BaseArrayAdapter(Context context, int layoutId, T[] objects) {
 		super(context, layoutId, objects);
 
 		if(objects == null)
 			_count = 0;
 		else
-			_count = objects.size();
+			_count = objects.length;
 		
 		_layoutId = layoutId;
 		_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

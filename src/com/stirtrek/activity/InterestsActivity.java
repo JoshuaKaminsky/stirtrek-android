@@ -9,19 +9,20 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.client.utilities.CollectionUtilities;
+import com.android.client.utilities.JsonUtilities;
 import com.android.common.SeparatedListAdapter;
 import com.stirtrek.adapter.InterestAdapter;
 import com.stirtrek.adapter.SessionQuickDetails;
@@ -30,7 +31,9 @@ import com.stirtrek.common.TimeSlotSorter;
 import com.stirtrek.model.Interest.Interests;
 import com.stirtrek.model.Response;
 import com.stirtrek.model.Session;
+import com.stirtrek.model.Speaker;
 import com.stirtrek.model.TimeSlot;
+import com.stirtrek.model.Track;
 
 public class InterestsActivity extends BaseActivity implements OnItemClickListener{
 	
@@ -82,7 +85,8 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 		TimeSlot[] timeslots = _data.TimeSlots;		
 		Arrays.sort(timeslots, new TimeSlotSorter());		
 		for(TimeSlot timeslot : timeslots){
-			List<Session> sessionList = map.get(timeslot.Id);
+			ArrayList<Session> items = map.get(timeslot.Id);
+			Session[] sessionList = items.toArray(new Session[items.size()]);
 			
 			if(sessionList == null){
 				ArrayAdapter<String> emptyAdapter = new ArrayAdapter<String>(this,R.layout.interest_empty_list_item);
@@ -94,7 +98,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 				continue;
 			}
 			else{
-				if(sessionList.get(0).TrackId == null){
+				if(sessionList[0].TrackId == null){
 					ArrayAdapter<String> generalAdapter = new ArrayAdapter<String>(this,R.layout.interest_general_list_item);
 					
 					for (Session session : sessionList) {
@@ -106,10 +110,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 				}
 			}			
 			
-			InterestAdapter interestAdapter = new InterestAdapter(
-					this,  
-					sessionList, 
-					Arrays.asList(_data.Tracks));						
+			InterestAdapter interestAdapter = new InterestAdapter(this, sessionList, _data.Tracks);						
 			
 			adapter.addSection(timeslot.GetId(), timeslot.GetName(), interestAdapter);
 		}
@@ -141,7 +142,23 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 	}
 	
 	private void showDetails(final Session session, Context context) {
+		Speaker speaker = CollectionUtilities.GetItem(session.SpeakerIds.get(0), _data.Speakers);
+		Track track = CollectionUtilities.GetItem(session.TrackId, _data.Tracks);
+		TimeSlot timeSlot = CollectionUtilities.GetItem(session.TimeSlotId, _data.TimeSlots);
 		
+		String sessionData = JsonUtilities.getJson(session);
+		String speakerData = JsonUtilities.getJson(speaker);
+		String trackData = JsonUtilities.getJson(track);
+		String timeSlotData = JsonUtilities.getJson(timeSlot);
+		
+		Intent intent = new Intent(context, SessionInfoActivity.class);
+		
+		intent.putExtra("SessionData", sessionData);
+		intent.putExtra("SpeakerData", speakerData);
+		intent.putExtra("TrackData", trackData);
+		intent.putExtra("TimeSlotData", timeSlotData);
+		
+		context.startActivity(intent);
 	}
 	
 	private void showTimeSlotOptions(int timeSlotId, Context context) {
@@ -159,7 +176,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 		
 		ListView listView = (ListView)details.findViewById(R.id.session_quick_list_view);
 		SessionQuickDetails quickDetails = 
-				new SessionQuickDetails(context, sessions, Arrays.asList(_data.Tracks), Arrays.asList(_data.Speakers));
+				new SessionQuickDetails(context, sessions.toArray(new Session[sessions.size()]), _data.Tracks,_data.Speakers);
 		listView.setAdapter(quickDetails);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 

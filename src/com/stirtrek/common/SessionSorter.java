@@ -1,16 +1,16 @@
 package com.stirtrek.common;
 
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+
+import android.util.SparseArray;
 
 import com.stirtrek.model.Session;
 import com.stirtrek.model.TimeSlot;
 
 public class SessionSorter implements Comparator<Session>{
-	private HashMap<Integer, TimeSlot> _timeslots = new HashMap<Integer, TimeSlot>();
+	private SparseArray<TimeSlot> _timeslots = new SparseArray<TimeSlot>();
 	
-	public SessionSorter(List<TimeSlot> timeSlots){
+	public SessionSorter(TimeSlot[] timeSlots){
 		for(TimeSlot timeslot : timeSlots){
 			_timeslots.put(timeslot.Id, timeslot);
 		}

@@ -44,14 +44,7 @@ public class MainActivity extends TabActivity {
 	    			  .setContent(intent);
 	    tabHost.addTab(spec);
 
-	  	//speakers tab
-	    intent = new Intent().setClass(this, SpeakerActivity.class);
-	    spec = tabHost.newTabSpec("speakers")
-	    			  .setIndicator(CreateTab(res.getDrawable(R.drawable.speaker)))
-	    			  .setContent(intent);
-	    tabHost.addTab(spec);
-	    
-	    //interests tab
+	  	//interests tab
 	    intent = new Intent().setClass(this, InterestsActivity.class);
 	    spec = tabHost.newTabSpec("interests")
 	    			  .setIndicator(CreateTab(res.getDrawable(R.drawable.star_icon)))

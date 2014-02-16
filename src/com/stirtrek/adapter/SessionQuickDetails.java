@@ -19,7 +19,7 @@ public class SessionQuickDetails extends BaseArrayAdapter<Session> {
 	private SparseArray<Speaker> _speakers;
 	
 	public SessionQuickDetails(Context context,
-			List<Session> objects, List<Track> tracks, List<Speaker> speakers) {
+			Session[] objects, Track[] tracks, Speaker[] speakers) {
 		super(context, R.layout.session_quick_details, objects);
 		
 		_tracks = new SparseArray<Track>();// new HashMap<Integer, Track>();

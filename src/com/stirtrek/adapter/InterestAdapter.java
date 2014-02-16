@@ -1,21 +1,20 @@
 package com.stirtrek.adapter;
 
-import java.util.List;
-
 import stirtrek.activity.R;
-import com.stirtrek.model.Session;
-import com.stirtrek.model.Track;
-import com.android.client.utilities.CollectionUtilities;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.client.utilities.CollectionUtilities;
+import com.stirtrek.model.Session;
+import com.stirtrek.model.Track;
+
 public class InterestAdapter extends BaseArrayAdapter<Session> {
 
-	private List<Track> _tracks;
+	private Track[] _tracks;
 	
-	public InterestAdapter(Context context, List<Session> objects, List<Track> tracks) {
+	public InterestAdapter(Context context, Session[] objects, Track[] tracks) {
 		super(context, R.layout.interest_list_item, objects);
 		
 		_tracks = tracks;

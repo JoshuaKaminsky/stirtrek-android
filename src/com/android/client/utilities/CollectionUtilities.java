@@ -8,7 +8,7 @@ import com.android.contract.IIdentifier;
 
 public class CollectionUtilities {
 
-	public static <I extends IIdentifier> I GetItem(Integer id, List<I> items)
+	public static <I extends IIdentifier> I GetItem(Integer id, I[] items)
 	{
 		if(id == null)
 			return null;
@@ -22,7 +22,7 @@ public class CollectionUtilities {
 		return null;
 	}
 	
-	public static <I extends IIdentifier> List<I> GetItems(List<Integer> ids, List<I> items)
+	public static <I extends IIdentifier> List<I> GetItems(List<Integer> ids, I[] items)
 	{
 		List<I> result = new ArrayList<I>();
 		

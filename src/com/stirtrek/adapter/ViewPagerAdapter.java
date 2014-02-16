@@ -5,20 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import stirtrek.activity.R;
-
-import com.stirtrek.activity.SessionInfoActivity;
-import com.stirtrek.common.TrackSorter;
-import com.stirtrek.model.Response;
-import com.stirtrek.model.Session;
-import com.stirtrek.model.Speaker;
-import com.stirtrek.model.TimeSlot;
-import com.stirtrek.model.Track;
-
-import android.app.Dialog;
-
-import com.android.client.utilities.JsonUtilities;
-import com.android.contract.ITitleProvider;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
@@ -26,11 +12,20 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.android.client.utilities.CollectionUtilities;
+import com.android.client.utilities.JsonUtilities;
+import com.android.contract.ITitleProvider;
+import com.stirtrek.activity.SessionInfoActivity;
+import com.stirtrek.common.TrackSorter;
+import com.stirtrek.model.Response;
+import com.stirtrek.model.Session;
+import com.stirtrek.model.Speaker;
+import com.stirtrek.model.TimeSlot;
+import com.stirtrek.model.Track;
  
 public class ViewPagerAdapter extends PagerAdapter implements ITitleProvider, OnItemClickListener{
     private final Context _context;
@@ -90,9 +85,9 @@ public class ViewPagerAdapter extends PagerAdapter implements ITitleProvider, On
 		schedule.setAdapter(
 				new SessionAdapter(
 						_context,
-						sessions, 
-						Arrays.asList(_timeSlots), 
-						Arrays.asList(_speakers)));
+						sessions.toArray(new Session[sessions.size()]), 
+						_timeSlots, 
+						_speakers));
 
 		schedule.setClickable(true);
 		schedule.setFocusable(true);
@@ -131,12 +126,23 @@ public class ViewPagerAdapter extends PagerAdapter implements ITitleProvider, On
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Session session = (Session) parent.getAdapter().getItem(position);
+		Speaker speaker = CollectionUtilities.GetItem(session.SpeakerIds.get(0),_speakers);
+		Track track = CollectionUtilities.GetItem(session.TrackId, _tracks);
+		TimeSlot timeSlot = CollectionUtilities.GetItem(session.TimeSlotId, _timeSlots);
+		
 		String sessionData = JsonUtilities.getJson(session);
+		String speakerData = JsonUtilities.getJson(speaker);
+		String trackData = JsonUtilities.getJson(track);
+		String timeSlotData = JsonUtilities.getJson(timeSlot);
 		
 		Context context = view.getContext();
 		
 		Intent intent = new Intent(context, SessionInfoActivity.class);
+		
 		intent.putExtra("SessionData", sessionData);
+		intent.putExtra("SpeakerData", speakerData);
+		intent.putExtra("TrackData", trackData);
+		intent.putExtra("TimeSlotData", timeSlotData);
 		
 		context.startActivity(intent);
 	}
