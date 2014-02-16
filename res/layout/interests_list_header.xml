@@ -2,12 +2,12 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
 		  android:id="@+id/interest_timeslot_header"
-		  android:background="@drawable/round_border"
+		  android:background="@color/frost"
 		  android:padding="2dp"
 		  android:layout_marginRight="5dp"
 		  android:textSize="18sp"
 		  android:textColor="@color/white" 
-		  android:gravity="left"
+		  android:gravity="center"
 		  android:textStyle="bold"
 		  android:layout_width="fill_parent"
 		  android:layout_height="wrap_content"/>

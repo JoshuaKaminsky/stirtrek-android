@@ -16,6 +16,6 @@ public class TimeSlot implements IIdentifier, INamed{
 	}
 
 	public String GetName() {
-		return StartTime;
+		return StartTime + " - " + EndTime;
 	}
 }
