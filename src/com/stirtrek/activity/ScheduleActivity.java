@@ -3,7 +3,7 @@ package com.stirtrek.activity;
 import stirtrek.activity.R;
 
 import com.stirtrek.adapter.ViewPagerAdapter;
-import com.stirtrek.application.IResponseListener;
+import com.stirtrek.common.IResponseListener;
 import com.stirtrek.application.StirTrek.App;
 import com.stirtrek.model.Response;
 import com.android.common.TitlePageIndicator;
@@ -13,7 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.widget.Toast;
 
-public class ScheduleActivity extends BaseActivity{    
+public class ScheduleActivity extends BaseActivity {    
 	
 	public ScheduleActivity() {
 		super(R.layout.schedule_pager);

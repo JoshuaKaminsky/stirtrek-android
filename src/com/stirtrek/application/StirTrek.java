@@ -4,34 +4,69 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.stirtrek.model.Interest;
-import com.stirtrek.model.Response;
-import com.stirtrek.model.Session;
-import com.stirtrek.model.Interest.Interests;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+
 import com.android.client.utilities.CollectionUtilities;
 import com.android.client.utilities.HttpGetAsyncTask;
+import com.android.client.utilities.HttpGetImageAsyncTask;
 import com.android.client.utilities.IResultCallback;
-import android.content.ContentResolver;
-import android.database.Cursor;
+import com.android.client.utilities.Utilities;
+import com.android.common.ImageCache;
+import com.stirtrek.common.IResponseListener;
+import com.stirtrek.model.Interest;
+import com.stirtrek.model.Interest.Interests;
+import com.stirtrek.model.Response;
+import com.stirtrek.model.Session;
+import com.stirtrek.model.Speaker;
 
 public final class StirTrek {
 	public static String PreferencesFile = "StirTrekPreferences";
 	
 	public static class App extends android.app.Application {
-		private static final String stirtrekJsonUrl = "http://stirtrek.com/Feed/JSON";
+		private static final String stirtrekJsonUrl = "http://stirtrek.com/Feed/JSON";		
 		
-		private static ArrayList<Interest> _interests = new ArrayList<Interest>();
 		private static Response _response;		
-		private static List<IResponseListener> _listeners = new ArrayList<IResponseListener>();
+		private static ArrayList<IResponseListener> _listeners = new ArrayList<IResponseListener>();
+		private static ArrayList<Interest> _interests = new ArrayList<Interest>();
 		
-		public App() {}
+		private static ImageCache _imageCache;
+		
+		public App() {			
+		}
 		
 		@Override
 		public void onCreate() {
+			new AsyncTask<Void, Void, Void>() {
+
+				@Override
+				protected Void doInBackground(Void... params) {
+					_imageCache = new ImageCache(getApplicationContext());
+					
+					return null;
+				}								
+			}.execute((Void)null);
+			
 			RefreshResponse();			
 			RefreshInterests(getContentResolver());
 		}		
 		
+		public static void RefreshCache(final Context context) {
+			if(_imageCache == null) {
+				new AsyncTask<Void, Void, Void>() {
+
+					@Override
+					protected Void doInBackground(Void... params) {
+						_imageCache = new ImageCache(context);
+						
+						return null;
+					}								
+				}.execute();
+			}
+		}
 		public static void RefreshInterests(ContentResolver resolver) {
 			_interests.clear();
 			
@@ -58,6 +93,25 @@ public final class StirTrek {
 			cursor.close();
 		}
 
+		public static void RefreshSpeakerImages(Speaker[] speakers) {
+			for (Speaker speaker : speakers) {
+				final String key = Utilities.GetKey(speaker.ImageUrl);				
+				
+				new HttpGetImageAsyncTask(new IResultCallback<Bitmap>() {
+					
+					@Override
+					public Class<Bitmap> GetType() {
+						return Bitmap.class;
+					}
+					
+					@Override
+					public void Callback(Bitmap result) {
+						_imageCache.put(key, result);
+					}
+				});
+			}
+		}
+		
 		public static void SetOnResponseReceived(IResponseListener listener)
 		{
 			if(!_listeners.contains(listener))
@@ -119,6 +173,10 @@ public final class StirTrek {
 		{
 			new HttpGetAsyncTask<Response>(new ResultCallback()).execute(stirtrekJsonUrl);
 		}
+			
+		public static Bitmap GetImageFromCache(String key) {
+			return _imageCache.getBitmap(key);
+		}
 		
 		private static class ResultCallback implements IResultCallback<Response> {
 
@@ -128,7 +186,9 @@ public final class StirTrek {
 				for(IResponseListener listener : _listeners)
 				{
 					listener.OnResponseReceived(_response);
-				}				
+				}
+				
+				RefreshSpeakerImages(result.Speakers);
 			}
 
 			public Class<Response> GetType() {
@@ -136,5 +196,5 @@ public final class StirTrek {
 			}
 			
 		}
-	}	
+	}		
 }

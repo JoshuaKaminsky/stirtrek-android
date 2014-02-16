@@ -33,8 +33,6 @@ import android.widget.ToggleButton;
 
 public class SessionAdapter extends AlternatingListViewAdapter<Session> implements OnClickListener {
 
-	private static String speakerPhotoUrl = "http://stirtrek.com/Content/Images/Speakers/";
-
 	private SparseArray<TimeSlot> _timeslots;
 	private SparseArray<Speaker> _speakers;
 
@@ -75,8 +73,7 @@ public class SessionAdapter extends AlternatingListViewAdapter<Session> implemen
 		textView.setText(session.Name);
 		
 		if (speakers.size() > 0) {
-			textView = (TextView) view
-					.findViewById(R.id.session_speaker_primary);
+			textView = (TextView) view.findViewById(R.id.session_speaker_primary);
 			
 			SpannableString contentUnderline = new SpannableString(speakers.get(0).Name);
 			contentUnderline.setSpan(new UnderlineSpan(), 0, contentUnderline.length(), 0);
@@ -100,8 +97,7 @@ public class SessionAdapter extends AlternatingListViewAdapter<Session> implemen
 			}
 		}
 
-		ToggleButton favorite = (ToggleButton) view
-				.findViewById(R.id.session_star);
+		ToggleButton favorite = (ToggleButton) view.findViewById(R.id.session_star);
 		favorite.setChecked(App.IsInterest(session.Id));
 		favorite.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -162,7 +158,7 @@ public class SessionAdapter extends AlternatingListViewAdapter<Session> implemen
 				imageView.setImageBitmap(result);
 
 			}
-		}).execute(speakerPhotoUrl + speaker.Name.replace(" ", "%20") + ".png");
+		}).execute(speaker.ImageUrl);
 
 		details.show();
 	}
