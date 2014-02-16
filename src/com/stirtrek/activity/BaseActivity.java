@@ -2,33 +2,23 @@ package com.stirtrek.activity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import stirtrek.activity.R;
 import android.app.Activity;
-import android.app.Dialog;
+import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.RelativeLayout;
 
 import com.android.common.BusyDialog;
 import com.android.common.FlingGesture;
 import com.android.common.TouchDetector;
 import com.android.contract.ITouchListener;
-
-import android.os.Bundle;
-import android.text.util.Linkify;
-import android.text.util.Linkify.TransformFilter;
-import android.view.GestureDetector;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class BaseActivity extends Activity implements ITouchListener{
 	private List<ITouchListener> _touchListeners = new ArrayList<ITouchListener>();	
@@ -104,48 +94,11 @@ public class BaseActivity extends Activity implements ITouchListener{
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu, menu);
-	    return true;
+		return false;
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
-			case R.id.menu_about:
-				ShowAboutBox();
-				break;
-		}
-		
-		return true;
-	}
-	
-	private void ShowAboutBox() {
-		
-		Dialog about = new Dialog(this);
-		
-		about.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		about.setCanceledOnTouchOutside(true);
-		about.setCancelable(true);
-		about.setContentView(R.layout.info);
-		
-		TextView textView = (TextView) about.findViewById(R.id.menu_about_text);
-		
-		Linkify.addLinks(textView, Linkify.ALL);
-		
-		// A transform filter that simply returns just the text captured by the
-	    // first regular expression group.
-	    TransformFilter mentionFilter = new TransformFilter() {
-	        public final String transformUrl(final Matcher match, String url) {
-	            return match.group(1);
-	        }
-	    };
-		
-		// Match @mentions and capture just the username portion of the text.
-	    Pattern pattern = Pattern.compile("@([A-Za-z0-9_-]+)");
-	    String scheme = "http://twitter.com/";
-	    Linkify.addLinks(textView, pattern, scheme, null, mentionFilter);
-		
-		about.show();
+	public boolean onOptionsItemSelected(MenuItem item) {				
+		return false;
 	}
 }
