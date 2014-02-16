@@ -20,6 +20,8 @@ package com.android.common;
 
 import java.util.ArrayList;
 
+import com.android.contract.ITitleProvider;
+
 import stirtrek.activity.R;
 import android.content.Context;
 import android.content.res.Resources;

@@ -20,7 +20,7 @@ public class SessionInfoActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		String sessionData = getIntent().getExtras().getString("SessionData");
-		_session = JsonUtilities.ParseJson(sessionData, Session.class);
+		_session = JsonUtilities.parseJson(sessionData, Session.class);
 		
 		Refresh();
 	}

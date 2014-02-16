@@ -1,4 +1,4 @@
-package com.android.common;
+package com.android.contract;
 
 public interface ITitleProvider {
 

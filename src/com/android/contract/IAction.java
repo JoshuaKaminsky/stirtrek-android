@@ -1,6 +1,8 @@
-package com.android.client.utilities;
+package com.android.contract;
 
-public interface IAsyncAction<T> {
-	T Execute();
+public interface IAction<TResult> {
+	
+	TResult Execute();
+
 }
 

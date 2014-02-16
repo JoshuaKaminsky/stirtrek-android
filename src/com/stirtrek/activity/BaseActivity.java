@@ -6,13 +6,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import stirtrek.activity.R;
-
 import android.app.Activity;
 import android.app.Dialog;
+
 import com.android.common.BusyDialog;
 import com.android.common.FlingGesture;
-import com.android.common.ITouchListener;
 import com.android.common.TouchDetector;
+import com.android.contract.ITouchListener;
+
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.text.util.Linkify.TransformFilter;

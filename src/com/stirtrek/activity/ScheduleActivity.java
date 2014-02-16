@@ -3,10 +3,11 @@ package com.stirtrek.activity;
 import stirtrek.activity.R;
 
 import com.stirtrek.adapter.ViewPagerAdapter;
-import com.stirtrek.common.IResponseListener;
+import com.stirtrek.contract.IResponseListener;
 import com.stirtrek.application.StirTrek.App;
 import com.stirtrek.model.Response;
 import com.android.common.TitlePageIndicator;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;

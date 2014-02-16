@@ -1,47 +1,82 @@
 package com.android.client.utilities;
 
 import java.io.InputStream;
-import java.net.URL;
+import java.lang.ref.WeakReference;
+import java.util.concurrent.Callable;
+
+import org.apache.http.HttpEntity;
+
+import com.android.contract.IResultCallback;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.widget.ImageView;
 
-import com.stirtrek.application.StirTrek.App;
+public class HttpGetImageAsyncTask extends HttpAsyncTask<Void, Bitmap>{
+	
+	private static WeakReference<ImageView> _imageViewReference;
+	private String url;
+	
+	public HttpGetImageAsyncTask(ImageView imageView) {
+		super(new IResultCallback<Bitmap>() {
 
-public class HttpGetImageAsyncTask extends  AsyncTask<String, Void, Bitmap>{
+			public Class<Bitmap> GetType() {
+				return Bitmap.class;
+			}
+
+			public void Callback(Bitmap result) {
+				if (_imageViewReference != null) {
+		            ImageView imageView = _imageViewReference.get();
+		            if (imageView != null) {
+		                imageView.setImageBitmap(result);
+		            }
+		        }
+				
+				return;	
+			}
+		});
+		
+		_imageViewReference = new WeakReference<ImageView>(imageView);
+	}		
 	
-	private IResultCallback<Bitmap> _callback;	
+	public HttpGetImageAsyncTask(IResultCallback<Bitmap> callback) {
+		super(callback);
+	}		
 	
-	public HttpGetImageAsyncTask(IResultCallback<Bitmap> callback) {	
-		_callback = callback;
-	}	
+	@Override
+	public void Get(final String url) {
+		_httpAction = new Callable<HttpEntity>() {
+
+			public HttpEntity call() throws Exception {
+				return HttpClientUtilities.get(url);				
+			}			
+		};
+		
+		execute("");		
+	}
 	
 	@Override
 	protected Bitmap doInBackground(String... urls) {
-		//currently only supports one url call at a time
-		if(urls.length != 1)
-			return null;
+		InputStream inputStream = getDataStream();
 		
-		URL url = Utilities.EncodeUrl(urls[0]);	
+		Bitmap result = null;
 		
-		Bitmap bitmap = App.GetImageFromCache(Utilities.GetKey(urls[0]));
-
-        if (bitmap == null) {		
-        	InputStream content = HttpClientUtilities.RetrieveStreamContent(url.toString());	
-        	
-        	bitmap = BitmapFactory.decodeStream(content);
-        }
-        
-        return bitmap;
-	}
+		if(!isCancelled()) {
+			 result = BitmapFactory.decodeStream(inputStream);
+		}
 		
+		return result;
+	};
+	
 	@Override	
-	protected void onPostExecute(Bitmap image) {
-		if(_callback != null)
-		{
-			_callback.Callback(image);
+	protected void onPostExecute(Bitmap result) {
+		if(_callback != null) {
+			_callback.Callback(result);
 		}		
+	}
+
+	public String getUrl() {
+		return url;
 	}		
 }
 	

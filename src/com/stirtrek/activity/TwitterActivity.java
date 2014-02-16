@@ -4,9 +4,8 @@ import stirtrek.activity.R;
 
 import com.stirtrek.adapter.TwitterAdapter;
 import com.twitter.model.SearchResponse;
+import com.android.contract.IResultCallback;
 
-import com.android.client.utilities.HttpGetAsyncTask;
-import com.android.client.utilities.IResultCallback;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -32,7 +31,6 @@ public class TwitterActivity extends BaseActivity implements IResultCallback<Sea
 
 	public void Refresh() {
 		SetBusy(true);
-		new HttpGetAsyncTask<SearchResponse>(this).execute(twitterSearchUrl);
 	}
 	
 	public void Callback(SearchResponse result) {

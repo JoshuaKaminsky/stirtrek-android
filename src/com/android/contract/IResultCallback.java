@@ -1,4 +1,4 @@
-package com.android.client.utilities;
+package com.android.contract;
 
 public interface IResultCallback<T> {
 

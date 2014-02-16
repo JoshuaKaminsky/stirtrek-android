@@ -2,7 +2,7 @@ package com.stirtrek.model;
 
 import java.util.List;
 
-import com.android.common.model.IIdentifier;
+import com.android.contract.IIdentifier;
 
 public class Session implements IIdentifier{
 

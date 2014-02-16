@@ -1,7 +1,7 @@
 package com.stirtrek.model;
 
-import com.android.common.model.IIdentifier;
-import com.android.common.model.INamed;
+import com.android.contract.IIdentifier;
+import com.android.contract.INamed;
 
 public class TimeSlot implements IIdentifier, INamed{
 	

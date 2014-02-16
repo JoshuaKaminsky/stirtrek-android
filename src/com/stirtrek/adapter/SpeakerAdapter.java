@@ -6,7 +6,6 @@ import java.util.List;
 import stirtrek.activity.R;
 
 import com.android.client.utilities.HttpGetImageAsyncTask;
-import com.android.client.utilities.IResultCallback;
 import com.android.client.utilities.Utilities;
 import com.stirtrek.application.StirTrek.App;
 import com.stirtrek.model.Speaker;
@@ -63,17 +62,7 @@ public class SpeakerAdapter extends BaseArrayAdapter<Speaker>{
 		if(image != null) {
 			imageView.setImageBitmap(image);
 		} else {
-			new HttpGetImageAsyncTask(new IResultCallback<Bitmap>() {
-	
-				public Class<Bitmap> GetType() {
-					return Bitmap.class;
-				}
-	
-				public void Callback(Bitmap result) {
-					imageView.setImageBitmap(result);
-	
-				}
-			}).execute(speaker.ImageUrl);
+			new HttpGetImageAsyncTask(imageView).Get(speaker.ImageUrl);
 		}
 		
 		return view;

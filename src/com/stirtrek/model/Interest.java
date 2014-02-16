@@ -2,7 +2,7 @@ package com.stirtrek.model;
 
 import java.util.HashMap;
 
-import com.android.common.model.IIdentifier;
+import com.android.contract.IIdentifier;
 
 import android.content.UriMatcher;
 import android.net.Uri;

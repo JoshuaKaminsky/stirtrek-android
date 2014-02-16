@@ -1,5 +1,7 @@
 package com.android.common;
 
+import com.android.contract.ITouchListener;
+
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 

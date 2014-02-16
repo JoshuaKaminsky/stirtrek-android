@@ -4,18 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import stirtrek.activity.R;
+
 import com.stirtrek.application.StirTrek.App;
 import com.stirtrek.common.SessionSorter;
 import com.stirtrek.model.Interest.Interests;
 import com.stirtrek.model.Session;
 import com.stirtrek.model.Speaker;
 import com.stirtrek.model.TimeSlot;
+
 import android.app.Dialog;
+
 import com.android.client.utilities.HttpGetImageAsyncTask;
-import com.android.client.utilities.IResultCallback;
+import com.android.contract.IResultCallback;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -128,38 +133,6 @@ public class SessionAdapter extends AlternatingListViewAdapter<Session> implemen
 	}
 
 	public void onClick(View v) {
-		Dialog details = new Dialog(v.getContext());
-		details.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		details.setCanceledOnTouchOutside(true);
-		details.setCancelable(true);
-		details.setContentView(R.layout.speaker_details);
-
-		Speaker speaker = (Speaker) v.getTag();
-
-		TextView textView = (TextView) details
-				.findViewById(R.id.speaker_details_name);
-		textView.setText(speaker.Name);
-
-		textView = (TextView) details.findViewById(R.id.speaker_details_bio);
-		textView.setText(speaker.Bio);
-
-		Linkify.addLinks(textView, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
-
-		final ImageView imageView = (ImageView) details
-				.findViewById(R.id.speaker_details_picture);
-
-		new HttpGetImageAsyncTask(new IResultCallback<Bitmap>() {
-
-			public Class<Bitmap> GetType() {
-				return Bitmap.class;
-			}
-
-			public void Callback(Bitmap result) {
-				imageView.setImageBitmap(result);
-
-			}
-		}).execute(speaker.ImageUrl);
-
-		details.show();
+		//go to speaker details
 	}
 }

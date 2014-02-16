@@ -11,12 +11,12 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.android.client.utilities.CollectionUtilities;
-import com.android.client.utilities.HttpGetAsyncTask;
+import com.android.client.utilities.HttpAsyncTask;
 import com.android.client.utilities.HttpGetImageAsyncTask;
-import com.android.client.utilities.IResultCallback;
 import com.android.client.utilities.Utilities;
 import com.android.common.ImageCache;
-import com.stirtrek.common.IResponseListener;
+import com.android.contract.IResultCallback;
+import com.stirtrek.contract.IResponseListener;
 import com.stirtrek.model.Interest;
 import com.stirtrek.model.Interest.Interests;
 import com.stirtrek.model.Response;
@@ -95,7 +95,7 @@ public final class StirTrek {
 
 		public static void RefreshSpeakerImages(Speaker[] speakers) {
 			for (Speaker speaker : speakers) {
-				final String key = Utilities.GetKey(speaker.ImageUrl);				
+				final String key = Utilities.GetKey(speaker.ImageUrl);								
 				
 				new HttpGetImageAsyncTask(new IResultCallback<Bitmap>() {
 					
@@ -106,7 +106,7 @@ public final class StirTrek {
 					
 					@Override
 					public void Callback(Bitmap result) {
-						_imageCache.put(key, result);
+						_imageCache.put(key, result);						
 					}
 				});
 			}
@@ -171,7 +171,7 @@ public final class StirTrek {
 		
 		public static void RefreshResponse()
 		{
-			new HttpGetAsyncTask<Response>(new ResultCallback()).execute(stirtrekJsonUrl);
+			new HttpAsyncTask<Void, Response>(new ResultCallback()).Get(stirtrekJsonUrl);
 		}
 			
 		public static Bitmap GetImageFromCache(String key) {

@@ -1,4 +1,4 @@
-package com.android.common.model;
+package com.android.contract;
 
 public interface INamed {
 	public String GetName();	

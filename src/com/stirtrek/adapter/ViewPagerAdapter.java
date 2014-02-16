@@ -17,7 +17,7 @@ import com.stirtrek.model.Track;
 import android.app.Dialog;
 
 import com.android.client.utilities.JsonUtilities;
-import com.android.common.ITitleProvider;
+import com.android.contract.ITitleProvider;
 
 import android.content.Context;
 import android.content.Intent;
@@ -131,7 +131,7 @@ public class ViewPagerAdapter extends PagerAdapter implements ITitleProvider, On
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Session session = (Session) parent.getAdapter().getItem(position);
-		String sessionData = JsonUtilities.GetJson(session);
+		String sessionData = JsonUtilities.getJson(session);
 		
 		Context context = view.getContext();
 		

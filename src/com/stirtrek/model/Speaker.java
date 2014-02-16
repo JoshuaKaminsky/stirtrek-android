@@ -1,6 +1,6 @@
 package com.stirtrek.model;
 
-import com.android.common.model.IIdentifier;
+import com.android.contract.IIdentifier;
 
 public class Speaker implements IIdentifier{
 	public int Id;

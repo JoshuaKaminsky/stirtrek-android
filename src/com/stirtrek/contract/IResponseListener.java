@@ -1,4 +1,4 @@
-package com.stirtrek.common;
+package com.stirtrek.contract;
 
 import com.stirtrek.model.Response;
 

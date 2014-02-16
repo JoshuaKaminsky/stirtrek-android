@@ -1,5 +1,7 @@
 package com.android.client.utilities;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
@@ -7,13 +9,14 @@ import com.google.gson.Gson;
 
 public class JsonUtilities{
 	
-	/**
-	 * @param <T>
-	 * @param input - the json string
-	 * @param type - the type of model to pull from json string - must do this for android
-	 * @return - the model objects
-	 */
-	public static <T> T ParseJson(String input, Class<T> type)
+	public static <T> T parseJson(InputStream inputStream, Class<T> type) {
+		if(inputStream == null)
+			return null;		
+		
+		return new Gson().fromJson(new InputStreamReader(inputStream), type);
+	}
+	
+	public static <T> T parseJson(String input, Class<T> type)
 	{
 		if(input == null)
 			return null;
@@ -25,7 +28,7 @@ public class JsonUtilities{
 		return gson.fromJson(reader, type);
 	}
 	
-	public static <T extends Object> String GetJson(T input)  {
+	public static <T extends Object> String getJson(T input)  {
 		if(input == null)
 			return "";
 		

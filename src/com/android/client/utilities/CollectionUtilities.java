@@ -3,7 +3,7 @@ package com.android.client.utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.android.common.model.IIdentifier;
+import com.android.contract.IIdentifier;
 
 
 public class CollectionUtilities {

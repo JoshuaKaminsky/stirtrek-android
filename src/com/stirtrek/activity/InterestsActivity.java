@@ -141,37 +141,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 	}
 	
 	private void showDetails(final Session session, Context context) {
-		final Dialog details = new Dialog(context);
-		details.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		details.setCanceledOnTouchOutside(true);
-		details.setCancelable(true);
-		details.setContentView(R.layout.session_details);
 		
-		TextView textView = (TextView) details.findViewById(R.id.session_details_title);
-		textView.setText(session.Name);
-		
-		textView = (TextView) details.findViewById(R.id.session_details_abstract);
-		textView.setText(session.Abstract);
-		
-		LinearLayout linearLayout = (LinearLayout)details.findViewById(R.id.session_remove_layout);
-		linearLayout.setVisibility(View.VISIBLE);
-		linearLayout.setClickable(true);
-		linearLayout.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View view) {
-				String where = Interests.SESSIONID + " = ?";
-	        	String[] args = new String[]{ Integer.toString(session.Id) };
-	        	ContentResolver resolver = getContentResolver();
-	            if(resolver.delete(Interests.CONTENT_URI, where, args) == 1)
-	            	App.RefreshInterests(resolver);	
-	            
-	            Refresh();
-	            
-	            details.dismiss();
-			}
-		});
-		
-		details.show();
 	}
 	
 	private void showTimeSlotOptions(int timeSlotId, Context context) {

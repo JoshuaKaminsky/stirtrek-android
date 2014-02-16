@@ -45,12 +45,16 @@ public class ImageCache {
     }
  
     public void put(String key, Bitmap image) {
+    	if (key == null || image == null) {
+            return;
+        }
+    	
     	addBitmapToMemoryCache(key, image);
     	
         DiskLruCache.Editor editor = null;
         try {
             editor = _diskCache.edit(key);
-            if (editor == null) {
+            if (editor == null || image == null) {
                 return;
             }
  
@@ -72,7 +76,11 @@ public class ImageCache {
     }
  
     public Bitmap getBitmap(String key) {
-        Bitmap bitmap = getBitmapFromMemCache(key);
+    	if (key == null) {
+            return null;
+        }
+    	
+    	Bitmap bitmap = getBitmapFromMemCache(key);
         if(bitmap != null) {
         	return bitmap;
         }
@@ -101,6 +109,10 @@ public class ImageCache {
     }
  
     public boolean containsKey( String key ) {
+    	if (key == null) {
+            return false;
+        }
+    	
         boolean contained = false;
         DiskLruCache.Snapshot snapshot = null;
         try {
@@ -130,12 +142,20 @@ public class ImageCache {
     }
  
     private static synchronized void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+    	if(key == null || bitmap == null) {
+    		return;
+    	}
+    	
 	    if (getBitmapFromMemCache(key) == null) {
 	    	_memoryCache.put(key, bitmap);
 	    }
 	}
 
     private static Bitmap getBitmapFromMemCache(String key) {
+    	if(key == null) {
+    		return null;
+    	}
+    	
 	    return _memoryCache.get(key);
 	}	
 	

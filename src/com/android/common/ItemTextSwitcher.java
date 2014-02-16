@@ -3,7 +3,8 @@ package com.android.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.android.common.model.INamed;
+import com.android.contract.IItemSwitchedListener;
+import com.android.contract.INamed;
 
 import android.content.Context;
 import android.graphics.Color;
