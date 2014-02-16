@@ -133,7 +133,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 					TextView headerView = (TextView) listAdapter.getHeaderView(position, null, parent);
 					Integer timeSlotId = listAdapter.getSectionId(headerView.getText().toString());
 					
-					//showTimeSlotOptions(timeSlotId, view.getContext());
+					showTimeSlotOptions(timeSlotId, view.getContext());
 				}
 			}
 			

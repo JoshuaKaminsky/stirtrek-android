@@ -5,15 +5,22 @@ import java.util.Arrays;
 import java.util.List;
 
 import stirtrek.activity.R;
+
+import com.stirtrek.activity.SessionInfoActivity;
 import com.stirtrek.common.TrackSorter;
 import com.stirtrek.model.Response;
 import com.stirtrek.model.Session;
 import com.stirtrek.model.Speaker;
 import com.stirtrek.model.TimeSlot;
 import com.stirtrek.model.Track;
+
 import android.app.Dialog;
+
+import com.android.client.utilities.JsonUtilities;
 import com.android.common.ITitleProvider;
+
 import android.content.Context;
+import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -123,21 +130,14 @@ public class ViewPagerAdapter extends PagerAdapter implements ITitleProvider, On
     public void startUpdate(View view) {}
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				
 		Session session = (Session) parent.getAdapter().getItem(position);
+		String sessionData = JsonUtilities.GetJson(session);
 		
-		Dialog details = new Dialog(view.getContext());
-		details.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		details.setCanceledOnTouchOutside(true);
-		details.setCancelable(true);
-		details.setContentView(R.layout.session_details);
+		Context context = view.getContext();
 		
-		TextView textView = (TextView) details.findViewById(R.id.session_details_title);
-		textView.setText(session.Name);
+		Intent intent = new Intent(context, SessionInfoActivity.class);
+		intent.putExtra("SessionData", sessionData);
 		
-		textView = (TextView) details.findViewById(R.id.session_details_abstract);
-		textView.setText(session.Abstract);
-		
-		details.show();
+		context.startActivity(intent);
 	}
 }
