@@ -2,7 +2,6 @@ package com.stirtrek.activity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import stirtrek.activity.R;
 import android.app.Dialog;

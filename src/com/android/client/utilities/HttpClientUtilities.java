@@ -99,6 +99,37 @@ public class HttpClientUtilities {
 		return httpRequest(deleteRequest);
 	}
 	
+	public static void addHeader(HttpUriRequest request, String header, String value) {
+		request.addHeader(header,  value);
+	}
+	
+	public static HttpEntity httpRequest(HttpUriRequest request) {
+		DefaultHttpClient client = new DefaultHttpClient();			
+		
+		try
+		{
+			HttpResponse response = client.execute(request);
+			final int statusCode = response.getStatusLine().getStatusCode();
+			
+			if(statusCode != HttpStatus.SC_OK)
+			{
+				Log.w("HttpClientUtilities.RetrieveStream(String url)",
+						"Error " + statusCode + " for URL " + request.getURI().toString());
+						return null;					
+			}
+			
+			return response.getEntity();
+		}
+		catch (IOException e) 
+		{
+			request.abort();
+			Log.w("HttpClientUtilities.RetrieveStream(String url)",
+					"Error for URL " + request.getURI().toString(), e);
+		}
+		
+		return null;
+	}
+	
 	private static HttpUriRequest getPostRequest(String url, String jsonObject) {
 		HttpPost postRequest = new HttpPost(url);	
 		
@@ -129,33 +160,6 @@ public class HttpClientUtilities {
 		}
 		
 		return putRequest;
-	}
-	
-	private static HttpEntity httpRequest(HttpUriRequest request) {
-		DefaultHttpClient client = new DefaultHttpClient();			
-		
-		try
-		{
-			HttpResponse response = client.execute(request);
-			final int statusCode = response.getStatusLine().getStatusCode();
-			
-			if(statusCode != HttpStatus.SC_OK)
-			{
-				Log.w("HttpClientUtilities.RetrieveStream(String url)",
-						"Error " + statusCode + " for URL " + request.getURI().toString());
-						return null;					
-			}
-			
-			return response.getEntity();
-		}
-		catch (IOException e) 
-		{
-			request.abort();
-			Log.w("HttpClientUtilities.RetrieveStream(String url)",
-					"Error for URL " + request.getURI().toString(), e);
-		}
-		
-		return null;
 	}
 	
 	private static void setAuthorizationHeader(HttpUriRequest request, String authorization) {

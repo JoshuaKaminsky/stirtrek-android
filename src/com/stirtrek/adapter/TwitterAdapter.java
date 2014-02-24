@@ -1,11 +1,17 @@
 package com.stirtrek.adapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import com.twitter.model.Status;
 
 import stirtrek.activity.R;
 import android.content.Context;
@@ -16,11 +22,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.twitter.model.Result;
-
-public class TwitterAdapter extends BaseArrayAdapter<Result>{
+public class TwitterAdapter extends BaseArrayAdapter<Status>{
 	
-	public TwitterAdapter(Context context, Result[] objects) {
+	public TwitterAdapter(Context context, Status[] objects) {
 		super(context, R.layout.twitter_list_item, objects);
 
 	}
@@ -29,7 +33,7 @@ public class TwitterAdapter extends BaseArrayAdapter<Result>{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = super.getView(position, convertView, parent);
 		
-		Result result = getItem(position);
+		Status result = getItem(position);
 		
 		TextView textView = (TextView)view.findViewById(R.id.twitter_text);
 		textView.setText(result.text);
@@ -37,7 +41,7 @@ public class TwitterAdapter extends BaseArrayAdapter<Result>{
 		Linkify.addLinks(textView, Linkify.ALL);
 		
 		textView = (TextView)view.findViewById(R.id.twitter_handle);
-		textView.setText("- @" + result.fromUser + GetDateString(result.createdAt));
+		textView.setText("- @" + result.user.handle + GetDateString(result.createdAt));
 		
 		// A transform filter that simply returns just the text captured by the
 	    // first regular expression group.
@@ -60,8 +64,10 @@ public class TwitterAdapter extends BaseArrayAdapter<Result>{
 		LocalDateTime time = null;
 		try
 		{
-			DateTimeFormatter formatter = DateTimeFormat.forPattern("EEE',' dd MMM yyyy HH:mm:ss Z"); 
-			time = formatter.parseDateTime(dateTime).toLocalDateTime();			
+			  SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH);
+			  formatter.setLenient(true);
+			  
+			  time = new DateTime(formatter.parse(dateTime)).toLocalDateTime();
 		}
 		catch(Exception e)
 		{

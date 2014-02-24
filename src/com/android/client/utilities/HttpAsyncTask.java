@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.concurrent.Callable;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.util.EntityUtils;
 
 import com.android.contract.IResultCallback;
@@ -35,6 +36,17 @@ public class HttpAsyncTask<TRequest, TResponse> extends AsyncTask<String, Void, 
 		_useAuthorization = true;
 	}	
 
+	public void Execute(final HttpUriRequest request) {
+		_httpAction = new Callable<HttpEntity>() {
+
+			public HttpEntity call() throws Exception {
+				return HttpClientUtilities.httpRequest(request);
+			}			
+		};
+		
+		execute("");
+	}
+	
 	public void Get(final String url) {
 		_httpAction = new Callable<HttpEntity>() {
 
