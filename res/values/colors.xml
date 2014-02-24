@@ -6,7 +6,7 @@
 	<color name="dark_gradient_start">#B3B3B3</color>
 	<color name="dark_gradient_end">#838383</color>
 
-	<color name="frost">#50FFFFFF</color>
+	<color name="frost">#30FFFFFF</color>
 	<color name="purple_frost">#50DA70D6</color>
 	<color name="blue_frost">#504169E1</color>
 	<color name="black_frost">#85000000</color>

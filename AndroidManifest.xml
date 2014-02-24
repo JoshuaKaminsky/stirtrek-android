@@ -23,13 +23,20 @@
  	 		      android:multiprocess="true"
     		      android:name="com.stirtrek.data.StirTrekDataProvider"/>
     	
-    	<activity android:name="com.stirtrek.activity.MainActivity"
-    	    	  android:configChanges="orientation"
-    	          android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-    		<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+    	<activity android:name="com.stirtrek.activity.SplashScreen"
+		          android:label="@string/app_name"
+		          android:configChanges="orientation"
+		          android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" /> 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+    	</activity>
+    	
+    	<activity android:name="com.stirtrek.activity.MainActivity"
+            	  android:label="@string/app_name"
+    	    	  android:configChanges="orientation"
+    	          android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
         
         <activity android:name="com.stirtrek.activity.ScheduleActivity"
