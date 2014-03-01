@@ -34,6 +34,7 @@
  			  android:layout_width="fill_parent"
  			  android:layout_gravity="fill"
  			  android:layout_margin="1dp"
+    		  android:divider="@color/transparent"
 		      android:listSelector="@color/transparent"/>
  			  
 </LinearLayout>

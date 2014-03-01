@@ -37,6 +37,7 @@
 	<com.android.common.PullToRefreshListView android:id="@+id/twitter_listview"
 			  android:layout_height="fill_parent"
 			  android:layout_width="fill_parent"
+    		  android:divider="@color/transparent"
 		  	  android:listSelector="@color/transparent"/>
   
 </LinearLayout>

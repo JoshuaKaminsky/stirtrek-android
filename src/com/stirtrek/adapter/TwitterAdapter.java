@@ -1,26 +1,24 @@
 package com.stirtrek.adapter;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import com.twitter.model.Status;
 
 import stirtrek.activity.R;
 import android.content.Context;
 import android.text.format.Time;
 import android.text.util.Linkify;
 import android.text.util.Linkify.TransformFilter;
+import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.twitter.model.Status;
 
 public class TwitterAdapter extends BaseArrayAdapter<Status>{
 	
@@ -37,24 +35,30 @@ public class TwitterAdapter extends BaseArrayAdapter<Status>{
 		
 		TextView textView = (TextView)view.findViewById(R.id.twitter_text);
 		textView.setText(result.text);
-		
-		Linkify.addLinks(textView, Linkify.ALL);
-		
-		textView = (TextView)view.findViewById(R.id.twitter_handle);
-		textView.setText("- @" + result.user.handle + GetDateString(result.createdAt));
-		
+				
 		// A transform filter that simply returns just the text captured by the
 	    // first regular expression group.
-	    TransformFilter mentionFilter = new TransformFilter() {
+	    TransformFilter filter = new TransformFilter() {
 	        public final String transformUrl(final Matcher match, String url) {
 	            return match.group(1);
 	        }
 	    };
+	    
+		Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
+		String mentionScheme = "http://www.twitter.com/";
+		Linkify.addLinks(textView, mentionPattern, mentionScheme, null, filter);
+
+		Pattern hashtagPattern = Pattern.compile("#([A-Za-z0-9_-]+)");
+		String hashtagScheme = "http://www.twitter.com/search/";
+		Linkify.addLinks(textView, hashtagPattern, hashtagScheme, null, filter);
+
+		Pattern urlPattern = Patterns.WEB_URL;
+		Linkify.addLinks(textView, urlPattern, null, null, filter);
 		
-		// Match @mentions and capture just the username portion of the text.
-	    Pattern pattern = Pattern.compile("@([A-Za-z0-9_-]+)");
-	    String scheme = "http://twitter.com/";
-	    Linkify.addLinks(textView, pattern, scheme, null, mentionFilter);
+		textView = (TextView)view.findViewById(R.id.twitter_handle);
+		textView.setText("- @" + result.user.handle + GetDateString(result.createdAt));
+		
+		Linkify.addLinks(textView, mentionPattern, mentionScheme, null, filter);
 		
 		return view;
 	}
