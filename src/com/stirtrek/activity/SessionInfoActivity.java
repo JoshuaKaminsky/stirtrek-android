@@ -104,7 +104,6 @@ public class SessionInfoActivity extends BaseActivity {
 					String where = Interests.SESSIONID + " = ?";
 					String[] args = new String[] { Integer.toString(_session.Id) };
 					resolver.delete(Interests.CONTENT_URI, where, args);
-					App.RefreshInterests(resolver);
 				}
 
 				App.RefreshInterests(resolver);

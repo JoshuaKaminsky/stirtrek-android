@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, scheduleActivity!</string>
-    <string name="app_name">StirTrek</string>
+    <string name="app_name">Stir Trek</string>
     <string name="left_view_pager_button">Left View Pager Button</string>
     <string name="right_view_pager_button">Right View Pager Button</string>
     <string name="no_session_selected">No Session Selected</string>

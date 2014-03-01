@@ -124,6 +124,11 @@ public class ViewPagerAdapter extends PagerAdapter implements ITitleProvider, On
     @Override
     public void startUpdate(View view) {}
 
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+    
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Session session = (Session) parent.getAdapter().getItem(position);
 		Speaker speaker = CollectionUtilities.GetItem(session.SpeakerIds.get(0),_speakers);

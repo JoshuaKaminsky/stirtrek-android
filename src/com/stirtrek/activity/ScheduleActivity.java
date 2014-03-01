@@ -16,6 +16,8 @@ import com.stirtrek.model.Response;
 
 public class ScheduleActivity extends BaseActivity {    
 	
+	private ViewPagerAdapter adapter;
+	
 	public ScheduleActivity() {
 		super(R.layout.schedule_pager);
 		
@@ -36,11 +38,13 @@ public class ScheduleActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		super.onResume();
+		super.onResume();		
 		
-		setBusy(true, this);
-		
-		App.RefreshResponse();
+		if(adapter != null) {
+			synchronized (adapter) {
+				adapter.notifyDataSetChanged();
+			}			
+		}
 	}
 	
 	private void Refresh() {	
@@ -60,10 +64,10 @@ public class ScheduleActivity extends BaseActivity {
 		
 		Context context = getBaseContext();
 		
-		ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(response, context);
+		adapter = new ViewPagerAdapter(response, context);
 		
 		ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);		
-		viewPager.setAdapter(pagerAdapter);		
+		viewPager.setAdapter(adapter);		
 		
 		viewPager.setFocusable(true);
 		viewPager.setClickable(true);
