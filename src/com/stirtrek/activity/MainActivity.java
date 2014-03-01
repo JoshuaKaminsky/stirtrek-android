@@ -1,7 +1,6 @@
 package com.stirtrek.activity;
 
 import stirtrek.activity.R;
-import com.stirtrek.application.StirTrek.App;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -17,10 +16,6 @@ public class MainActivity extends TabActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		App.RefreshCache(this);
-		App.RefreshInterests(getContentResolver());
-	    App.RefreshResponse();
 		
 		setContentView(R.layout.main);
 		

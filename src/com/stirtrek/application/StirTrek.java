@@ -34,24 +34,8 @@ public final class StirTrek {
 		
 		private static ImageCache _imageCache;
 		
-		public App() {			
+		public App() {	
 		}
-		
-		@Override
-		public void onCreate() {
-			new AsyncTask<Void, Void, Void>() {
-
-				@Override
-				protected Void doInBackground(Void... params) {
-					_imageCache = new ImageCache(getApplicationContext());
-					
-					return null;
-				}								
-			}.execute((Void)null);
-			
-			RefreshResponse();			
-			RefreshInterests(getContentResolver());
-		}		
 		
 		public static void RefreshCache(final Context context) {
 			if(_imageCache == null) {
@@ -162,9 +146,6 @@ public final class StirTrek {
 		}
 		
 		public static Response GetResponse() {
-			if(_response == null)
-				RefreshResponse();
-			
 			return _response;
 		}
 		
