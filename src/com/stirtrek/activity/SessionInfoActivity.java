@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.util.Linkify;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -55,7 +56,7 @@ public class SessionInfoActivity extends BaseActivity {
 		textView.setText(_session.Name);
 		
 		textView = (TextView)findViewById(R.id.session_details_abstract);
-		textView.setText(_session.Abstract);
+		textView.setText(Html.fromHtml(_session.Abstract));
 		
 		textView = (TextView)findViewById(R.id.speaker_details_name);
 		textView.setText(_speaker.Name);
