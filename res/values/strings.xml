@@ -20,7 +20,10 @@
     <string name="details_image">Details Image</string>
     <string name="twitter_refresh_icon">Twitter Refresh Icon</string>
     <string name="stir_trek_icon">Stir Trek Icon</string>
-    <string name="stir_trek_session">Session Information</string>
+    <string name="stir_trek_session">Session</string>    
+    <string name="stir_trek_speaker">Speaker</string>
+    <string name="splash_text">Winter Soldier Edition</string>
+    <string name="splash_date">April 4th, 2014</string>
     <string name="pull_to_refresh_pull_label">Pull to refresh&#8230;</string>
     <string name="pull_to_refresh_release_label">Release to refresh&#8230;</string>
     <string name="pull_to_refresh_refreshing_label">Loading&#8230;</string>

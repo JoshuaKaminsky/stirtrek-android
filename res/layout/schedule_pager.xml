@@ -19,9 +19,18 @@
 	    <TextView android:textSize="20sp"
 				  android:textColor="@color/white" 
 				  android:textStyle="bold"
-				  android:layout_width="fill_parent"
+				  android:layout_width="0dp"
 				  android:layout_height="wrap_content"
+				  android:layout_weight="1"
+				  android:gravity="center"
+				  android:layout_gravity="center"
 				  android:text="@string/stir_trek_schedule"/>
+	    
+	    <ProgressBar android:id="@+id/busy_bar"
+				 android:layout_height="30dp"
+ 			  	 android:layout_width="30dp"
+ 			  	 android:visibility="invisible"
+ 			  	 android:layout_gravity="left"/>
 	    
 	</LinearLayout>
     

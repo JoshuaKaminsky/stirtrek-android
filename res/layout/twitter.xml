@@ -18,7 +18,8 @@
 	    
 	    <TextView android:textSize="20sp"
 				  android:layout_weight="1"
-				  android:layout_gravity="left"
+				  android:gravity="center"
+				  android:layout_gravity="center"
 				  android:textColor="@color/white" 
 				  android:textStyle="bold"
 				  android:layout_height="wrap_content"
@@ -35,7 +36,8 @@
     
 	<com.android.common.PullToRefreshListView android:id="@+id/twitter_listview"
 			  android:layout_height="fill_parent"
-			  android:layout_width="fill_parent"/>
+			  android:layout_width="fill_parent"
+		  	  android:listSelector="@color/transparent"/>
   
 </LinearLayout>
 

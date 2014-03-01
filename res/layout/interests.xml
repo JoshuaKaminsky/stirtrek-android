@@ -19,6 +19,9 @@
 	    <TextView android:textSize="20sp"
 				  android:textColor="@color/white" 
 				  android:textStyle="bold"
+				  android:gravity="center"
+				  android:paddingRight="30dp"
+				  android:layout_gravity="center"
 				  android:layout_width="fill_parent"
 				  android:layout_height="wrap_content"
 				  android:text="@string/my_schedule"/>
@@ -30,6 +33,7 @@
  			  android:layout_height="fill_parent"
  			  android:layout_width="fill_parent"
  			  android:layout_gravity="fill"
- 			  android:layout_margin="1dp"/>
+ 			  android:layout_margin="1dp"
+		      android:listSelector="@color/transparent"/>
  			  
 </LinearLayout>
