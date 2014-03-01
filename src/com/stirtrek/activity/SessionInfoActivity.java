@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.util.Linkify;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +50,10 @@ public class SessionInfoActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		Refresh();
+	}
+	
+	public void goBack(View v) {
+		finish();
 	}
 	
 	private void Refresh() {
