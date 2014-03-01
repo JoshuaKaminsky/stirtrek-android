@@ -11,7 +11,7 @@
 	    		  android:padding="5dp"
 			  	  android:background="@color/blue_frost">
 	    
-	    <ImageView  android:src="@drawable/ic_launcher"
+	    <ImageView  android:src="@drawable/icon"
 	        		android:layout_height="30dp"
 	        		android:layout_width="30dp"	        		
 				  	android:layout_gravity="center"
