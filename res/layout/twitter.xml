@@ -25,16 +25,15 @@
 				  android:layout_width="0dp"
 				  android:text="@string/twitter_feed"/>
     
-	    <ImageButton android:id="@+id/twitter_refresh"
-	        		 android:layout_width="24dp"
-				  	 android:layout_height="24dp"
-				  	 android:layout_marginRight="10dp"
-				  	 android:background="@drawable/refresh"
-				  	 android:layout_gravity="center"
-				  	 android:contentDescription="@string/twitter_refresh_icon"/>
+	    <ProgressBar android:id="@+id/twitter_busy_bar"
+				 android:layout_height="30dp"
+ 			  	 android:layout_width="30dp"
+ 			  	 android:visibility="invisible"
+ 			  	 android:layout_gravity="center"/>
+	    
     </LinearLayout>
     
-	<ListView android:id="@+id/twitter_listview"
+	<com.android.common.PullToRefreshListView android:id="@+id/twitter_listview"
 			  android:layout_height="fill_parent"
 			  android:layout_width="fill_parent"/>
   

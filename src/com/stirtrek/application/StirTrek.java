@@ -1,7 +1,6 @@
 package com.stirtrek.application;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.content.ContentResolver;

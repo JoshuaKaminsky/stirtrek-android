@@ -11,18 +11,18 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.client.utilities.HttpAsyncTask;
+import com.android.common.PullToRefreshListView;
+import com.android.common.PullToRefreshListView.OnRefreshListener;
 import com.android.contract.IResultCallback;
 import com.stirtrek.adapter.TwitterAdapter;
 import com.twitter.model.QueryResult;
 import com.twitter.model.TokenResponse;
 
-public class TwitterActivity extends BaseActivity implements IResultCallback<QueryResult>{
+public class TwitterActivity extends BaseActivity {
 	
 	private static String twitterTokenhUrl = "https://api.twitter.com/oauth2/token";
 	private static String twitterSearchUrl = "https://api.twitter.com/1.1/search/tweets.json?q=stirtrek-filter:retweets&rpp=50";
@@ -30,20 +30,77 @@ public class TwitterActivity extends BaseActivity implements IResultCallback<Que
 	private static String apiKey = "oLTvXx9TlgWRe8Omo23o5w";
 	private static String apiSecret = "QgrSMsEdTTFAxDmGV0t1SUk0utEeDkFlEASutpWqQ";
 	
+	private String _token;
+	
+	private Boolean _refreshing = false;
+	
 	public TwitterActivity() {
-		super(R.layout.twitter);
+		super(R.layout.twitter);		
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
+		
+		final TwitterActivity context = this;
+		
+		((PullToRefreshListView) findViewById(R.id.twitter_listview)).setOnRefreshListener(new OnRefreshListener() {
+		    @Override
+		    public void onRefresh() {
+		        if(!_refreshing) {
+		        	context.Refresh();
+		        }
+		    }
+		});
 		
 		Refresh();
 	}		
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+	};
 
 	public void Refresh() {
-		SetBusy(true);
+		String token = getBearerToken();
+		if(token != null && token != "") {
+			getTweets(token, this);
+			return;
+		}		
 		
+		setBusy(true, this);
+		
+		final TwitterActivity context = this;
+		
+		IResultCallback<TokenResponse> callback = new IResultCallback<TokenResponse>() {
+
+			@Override
+			public Class<TokenResponse> GetType() {
+				return TokenResponse.class;
+			}
+
+			@Override
+			public void Callback(TokenResponse result) {
+				if(result == null || !result.tokenType.equalsIgnoreCase("bearer")) {
+					Toast toast=Toast.makeText(context, "Could not retrieve tweets.", Toast.LENGTH_LONG);
+				    toast.setGravity(Gravity.CENTER, 0, 0);
+				    toast.show();
+				    
+				    context.setBusy(false, context);
+				    
+				    return;
+				}
+				
+				context.setBearerToken(result.accessToken);
+				
+				context.getTweets(result.accessToken, context);
+			}
+		};
+		
+		authorize(callback);
+	}
+	
+	public void authorize(IResultCallback<TokenResponse> callback) {
 		HttpPost postRequest = new HttpPost(twitterTokenhUrl);
 		
 		try {	
@@ -58,61 +115,63 @@ public class TwitterActivity extends BaseActivity implements IResultCallback<Que
 			e.printStackTrace();
 		}
 		
-		final TwitterActivity context = this;
+		new HttpAsyncTask<String, TokenResponse>(callback).Execute(postRequest);
+	}
+	
+	public void getTweets(String accessToken, final TwitterActivity context) {	
+		context.setBusy(true, context);
 		
-		new HttpAsyncTask<String, TokenResponse>(new IResultCallback<TokenResponse>() {
+		IResultCallback<QueryResult> callback = new IResultCallback<QueryResult>() {
 
 			@Override
-			public Class<TokenResponse> GetType() {
-				return TokenResponse.class;
+			public Class<QueryResult> GetType() {
+				return QueryResult.class;
 			}
 
 			@Override
-			public void Callback(TokenResponse result) {
-				if(result == null || !result.tokenType.equalsIgnoreCase("bearer")) {
+			public void Callback(QueryResult result) {
+				if(result == null)
+				{
 					Toast toast=Toast.makeText(context, "Could not retrieve tweets.", Toast.LENGTH_LONG);
 				    toast.setGravity(Gravity.CENTER, 0, 0);
 				    toast.show();
 				    
-				    SetBusy(false);
-				    
+				    context.setBusy(false, context);
+					
 				    return;
 				}
 				
-				new HttpAsyncTask<Void, QueryResult>("Bearer " + result.accessToken, context).Get(twitterSearchUrl);
+				ListView listView = (ListView)findViewById(R.id.twitter_listview);
+				listView.setAdapter(new TwitterAdapter(getBaseContext(), result.statuses));	
+				
+				context.setBusy(false, context);	
 			}
-		}).Execute(postRequest);
+		};
 		
+		new HttpAsyncTask<Void, QueryResult>("Bearer " + accessToken, callback).Get(twitterSearchUrl);
 	}
 	
-	public void Callback(QueryResult result) {
-		SetBusy(false);
-		if(result == null)
-		{
-			Toast toast=Toast.makeText(this, "Could not retrieve tweets.", Toast.LENGTH_LONG);
-		    toast.setGravity(Gravity.CENTER, 0, 0);
-		    toast.show();
-		    
-		    return;
-		}
-		
-		ListView listView = (ListView)findViewById(R.id.twitter_listview);
-		listView.setAdapter(new TwitterAdapter(getBaseContext(), result.statuses));	
-		
-		ImageButton imageButton = (ImageButton)findViewById(R.id.twitter_refresh);
-		imageButton.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				Refresh();
-			}
-		});
+	private void setBearerToken(String token) {
+		_token = token;
 	}
-
-	public Class<QueryResult> GetType() {
-		return QueryResult.class;
-	}	
+	
+	private String getBearerToken() {
+		return _token;
+	}
 	
 	private String getBasicAuth() throws UnsupportedEncodingException {
 		return "Basic " + Base64.encodeToString((URLEncoder.encode(apiKey, "UTF-8") + ':' +URLEncoder.encode(apiSecret, "UTF-8") ).getBytes(), Base64.NO_WRAP);
+	}
+
+	private void setBusy(Boolean busy, TwitterActivity context) {
+		_refreshing = busy;
+		
+		int visible = busy ? View.VISIBLE : View.INVISIBLE;
+		
+		context.findViewById(R.id.twitter_busy_bar).setVisibility(visible);
+		
+		if(!busy){
+			((PullToRefreshListView) context.findViewById(R.id.twitter_listview)).onRefreshComplete();
+		}
 	}
 }
