@@ -85,29 +85,28 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 		Arrays.sort(timeslots, new TimeSlotSorter());		
 		for(TimeSlot timeslot : timeslots){
 			ArrayList<Session> items = map.get(timeslot.Id);
-			Session[] sessionList = items.toArray(new Session[items.size()]);
-			
-			if(sessionList == null){
+			if(items == null) {
 				ArrayAdapter<String> emptyAdapter = new ArrayAdapter<String>(this,R.layout.interest_empty_list_item);
 
-				emptyAdapter.add("** click to view sessions **");		
+				emptyAdapter.add("** no sessions selected **");		
 				
 				adapter.addSection(timeslot.GetId(), timeslot.GetName(), emptyAdapter);								
 				
 				continue;
 			}
-			else{
-				if(sessionList[0].TrackId == null){
-					ArrayAdapter<String> generalAdapter = new ArrayAdapter<String>(this,R.layout.interest_general_list_item);
-					
-					for (Session session : sessionList) {
-						generalAdapter.add(session.Name);
-					}					
-					
-					adapter.addSection(timeslot.GetId(), timeslot.GetName(), generalAdapter);
-					continue;
-				}
-			}			
+			
+			Session[] sessionList = items.toArray(new Session[items.size()]);
+			
+			if(sessionList[0].TrackId == null){
+				ArrayAdapter<String> generalAdapter = new ArrayAdapter<String>(this,R.layout.interest_general_list_item);
+				
+				for (Session session : sessionList) {
+					generalAdapter.add(session.Name);
+				}					
+				
+				adapter.addSection(timeslot.GetId(), timeslot.GetName(), generalAdapter);
+				continue;
+			}	
 			
 			InterestAdapter interestAdapter = new InterestAdapter(this, sessionList, _data.Tracks);						
 			
