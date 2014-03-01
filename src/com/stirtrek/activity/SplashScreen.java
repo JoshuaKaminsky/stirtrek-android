@@ -21,6 +21,8 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
  
+        App.initialize(getApplicationContext());
+        
         App.RefreshCache(this);
 		App.RefreshInterests(getContentResolver());
 	    App.RefreshResponse();		
@@ -28,10 +30,12 @@ public class SplashScreen extends Activity {
 	    if(App.GetResponse() == null) {
 	    	findViewById(R.id.splash_busy).setVisibility(View.VISIBLE);
 	    	
-	    	App.SetOnResponseReceived(new IResponseListener() {
+	    	App.SetResponseListener(new IResponseListener() {
 				
 				@Override
 				public void OnResponseReceived(Response response) {
+					App.RemoveResponseListener(this);
+					
 					goToMainIntent();
 				}
 			});

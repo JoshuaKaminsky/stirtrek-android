@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.os.AsyncTask;
 import com.android.client.utilities.CollectionUtilities;
 import com.android.client.utilities.HttpAsyncTask;
 import com.android.client.utilities.HttpGetImageAsyncTask;
+import com.android.client.utilities.JsonUtilities;
 import com.android.client.utilities.Utilities;
 import com.android.common.ImageCache;
 import com.android.contract.IResultCallback;
@@ -28,15 +30,26 @@ public final class StirTrek {
 	public static class App extends android.app.Application {
 		private static final String stirtrekJsonUrl = "http://stirtrek.com/Feed/JSON";		
 		
+		private static final String appPreferenceKey = "stirtrek_preferences_key";
+		
 		private static Response _response;		
 		private static ArrayList<IResponseListener> _listeners = new ArrayList<IResponseListener>();
 		private static ArrayList<Interest> _interests = new ArrayList<Interest>();
 		
 		private static ImageCache _imageCache;
 		
-		public App() {	
-		}
+		private static Context context;
+
+	    public static void initialize(Context context){
+	        App.context = context;
+	        
+	        _response = getData();
+	    }
 		
+	    public static Context getAppContext() {
+	        return App.context;
+	    }
+	    
 		public static void RefreshCache(final Context context) {
 			if(_imageCache == null) {
 				new AsyncTask<Void, Void, Void>() {
@@ -96,10 +109,16 @@ public final class StirTrek {
 			}
 		}
 		
-		public static void SetOnResponseReceived(IResponseListener listener)
+		public static void SetResponseListener(IResponseListener listener)
 		{
 			if(!_listeners.contains(listener))
 				_listeners.add(listener);
+		}
+		
+		public static void RemoveResponseListener(IResponseListener listener) {
+			if(_listeners.contains(listener)) {
+				_listeners.remove(listener);
+			}
 		}
 		
 		public static boolean IsInterest(int sessionId) {
@@ -162,6 +181,12 @@ public final class StirTrek {
 		private static class ResultCallback implements IResultCallback<Response> {
 
 			public void Callback(Response result) {
+				if(result == null || (_response != null && JsonUtilities.getJson(result) == JsonUtilities.getJson(_response))) {
+					return;
+				}
+				
+				storeData(result);
+				
 				_response = result;
 				
 				for(IResponseListener listener : _listeners)
@@ -176,6 +201,23 @@ public final class StirTrek {
 				return Response.class;
 			}
 			
+		}
+		
+		private static void storeData(Response data) {
+			SharedPreferences preferences = context.getSharedPreferences(appPreferenceKey, 0);
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putString("stirtrek_data", JsonUtilities.getJson(data));
+			editor.commit();
+		}
+		
+		private static Response getData() {
+			SharedPreferences preferences = context.getSharedPreferences(appPreferenceKey, 0);
+			String jsonData = preferences.getString("stirtrek_data", "");
+			if(jsonData == null || jsonData == "") {
+				return null;
+			}
+			
+			return JsonUtilities.parseJson(jsonData, Response.class);
 		}
 	}		
 }

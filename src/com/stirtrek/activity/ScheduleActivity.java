@@ -1,25 +1,25 @@
 package com.stirtrek.activity;
 
 import stirtrek.activity.R;
-
-import com.stirtrek.adapter.ViewPagerAdapter;
-import com.stirtrek.contract.IResponseListener;
-import com.stirtrek.application.StirTrek.App;
-import com.stirtrek.model.Response;
-import com.android.common.TitlePageIndicator;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Toast;
+
+import com.android.common.TitlePageIndicator;
+import com.stirtrek.adapter.ViewPagerAdapter;
+import com.stirtrek.application.StirTrek.App;
+import com.stirtrek.contract.IResponseListener;
+import com.stirtrek.model.Response;
 
 public class ScheduleActivity extends BaseActivity {    
 	
 	public ScheduleActivity() {
 		super(R.layout.schedule_pager);
 		
-		App.SetOnResponseReceived(new IResponseListener() {
+		App.SetResponseListener(new IResponseListener() {
 			
 			public void OnResponseReceived(Response response) {
 				ResponseReceived(response);				
@@ -30,29 +30,30 @@ public class ScheduleActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	
+		
 		Refresh();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		setBusy(true, this);
+		
+		App.RefreshResponse();
 	}
 	
-	private void Refresh() {
-		SetBusy(true);			
+	private void Refresh() {	
+		setBusy(true, this);
 		
 		Response response = App.GetResponse();
-		if(response != null)
-			ResponseReceived(response);		
-	}
-	
-	protected void ResponseReceived(final Response response) {
 		if(response == null)
 		{
 			Toast toast=Toast.makeText(getBaseContext(), "Could not retrieve schedule.", Toast.LENGTH_LONG);
 		    toast.setGravity(Gravity.CENTER, 0, 0);
 		    toast.show();
+			
+			setBusy(false, this);			
 
 			return;
 		}		
@@ -73,6 +74,16 @@ public class ScheduleActivity extends BaseActivity {
 		
 		viewPager.setCurrentItem(0, true);
 		
-		SetBusy(false);		
+		setBusy(false, this);			
+	}
+	
+	protected void ResponseReceived(final Response response) {
+		Refresh();	
+	}
+	
+	private void setBusy(Boolean busy, ScheduleActivity context) {
+		int visible = busy ? View.VISIBLE : View.INVISIBLE;
+		
+		context.findViewById(R.id.schedule_busy_bar).setVisibility(visible);
 	}
 }
