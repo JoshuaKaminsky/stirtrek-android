@@ -68,7 +68,7 @@ public class SessionInfoActivity extends BaseActivity {
 		if(image != null) {
 			imageView.setImageBitmap(image);
 		} else {
-			new HttpGetImageAsyncTask(imageView).Get(_speaker.ImageUrl);
+			new HttpGetImageAsyncTask(imageView).Get(Utilities.EncodeUrl(_speaker.ImageUrl).toString());
 		}
 		
 		ToggleButton favorite = (ToggleButton) findViewById(R.id.session_star);
