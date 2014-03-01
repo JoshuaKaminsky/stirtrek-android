@@ -24,7 +24,7 @@ import com.android.client.utilities.CollectionUtilities;
 import com.android.client.utilities.JsonUtilities;
 import com.android.common.SeparatedListAdapter;
 import com.stirtrek.adapter.InterestAdapter;
-import com.stirtrek.adapter.SessionQuickDetails;
+import com.stirtrek.adapter.SessionQuickDetailsAdapter;
 import com.stirtrek.application.StirTrek.App;
 import com.stirtrek.common.TimeSlotSorter;
 import com.stirtrek.model.Interest.Interests;
@@ -52,6 +52,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
 		Refresh();
 	}
 	
@@ -63,6 +64,7 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 		
 		SparseArray<ArrayList<Session>> map = new SparseArray<ArrayList<Session>>();
 		ArrayList<Session> sessions = new ArrayList<Session>(App.GetAllInterests());
+		
 		for(Session session : _data.Sessions){
 			if(session.TrackId == null){
 				//this is a global event
@@ -82,13 +84,15 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 		SeparatedListAdapter adapter = new SeparatedListAdapter(R.layout.interests_list_header, this);
 		
 		TimeSlot[] timeslots = _data.TimeSlots;		
+		
 		Arrays.sort(timeslots, new TimeSlotSorter());		
+		
 		for(TimeSlot timeslot : timeslots){
 			ArrayList<Session> items = map.get(timeslot.Id);
 			if(items == null) {
 				ArrayAdapter<String> emptyAdapter = new ArrayAdapter<String>(this,R.layout.interest_empty_list_item);
 
-				emptyAdapter.add("** no sessions selected **");		
+				emptyAdapter.add("** click to add session **");		
 				
 				adapter.addSection(timeslot.GetId(), timeslot.GetName(), emptyAdapter);								
 				
@@ -173,9 +177,9 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 		}
 		
 		ListView listView = (ListView)details.findViewById(R.id.session_quick_list_view);
-		SessionQuickDetails quickDetails = 
-				new SessionQuickDetails(context, sessions.toArray(new Session[sessions.size()]), _data.Tracks,_data.Speakers);
+		SessionQuickDetailsAdapter quickDetails = new SessionQuickDetailsAdapter(context, sessions.toArray(new Session[sessions.size()]), _data.Tracks,_data.Speakers);
 		listView.setAdapter(quickDetails);
+		
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
@@ -187,6 +191,8 @@ public class InterestsActivity extends BaseActivity implements OnItemClickListen
 				values.put(Interests.SESSIONID, session.Id);
 				values.put(Interests.TIMESLOTID, session.TimeSlotId);
 				resolver.insert(Interests.CONTENT_URI, values);
+				
+				App.RefreshInterests(resolver);
 				
 				Refresh();
 				

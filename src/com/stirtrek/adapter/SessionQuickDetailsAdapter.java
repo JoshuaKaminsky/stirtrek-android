@@ -13,14 +13,13 @@ import com.stirtrek.model.Session;
 import com.stirtrek.model.Speaker;
 import com.stirtrek.model.Track;
 
-public class SessionQuickDetails extends BaseArrayAdapter<Session> {
+public class SessionQuickDetailsAdapter extends BaseArrayAdapter<Session> {
 
 	private SparseArray<Track> _tracks;
 	private SparseArray<Speaker> _speakers;
 	
-	public SessionQuickDetails(Context context,
-			Session[] objects, Track[] tracks, Speaker[] speakers) {
-		super(context, R.layout.session_quick_details, objects);
+	public SessionQuickDetailsAdapter(Context context, Session[] objects, Track[] tracks, Speaker[] speakers) {
+		super(context, R.layout.session_quick_details_list_item, objects);
 		
 		_tracks = new SparseArray<Track>();// new HashMap<Integer, Track>();
 		for (Track track : tracks) {
