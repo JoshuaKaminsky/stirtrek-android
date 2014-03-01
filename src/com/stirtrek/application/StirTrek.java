@@ -50,6 +50,7 @@ public final class StirTrek {
 				}.execute();
 			}
 		}
+		
 		public static void RefreshInterests(ContentResolver resolver) {
 			_interests.clear();
 			
@@ -157,7 +158,7 @@ public final class StirTrek {
 		public static Bitmap GetImageFromCache(String key) {
 			return _imageCache.getBitmap(key);
 		}
-		
+					
 		private static class ResultCallback implements IResultCallback<Response> {
 
 			public void Callback(Response result) {
