@@ -71,13 +71,11 @@
         
         <activity android:name="com.stirtrek.activity.SessionInfoActivity"
         		  android:label="@string/app_name"
-    	    	  android:configChanges="orientation"
                   android:theme="@android:style/Theme.NoTitleBar">            
         </activity> 
         
         <activity android:name="com.stirtrek.activity.SpeakerInfoActivity"
         		  android:label="@string/app_name"
-    	    	  android:configChanges="orientation"
                   android:theme="@android:style/Theme.NoTitleBar">            
         </activity> 
         

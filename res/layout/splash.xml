@@ -4,30 +4,41 @@
     android:layout_height="match_parent"
     android:background="@drawable/splash" >
 
+    
+    <ProgressBar android:id="@+id/splash_busy"
+        	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:layout_alignParentBottom="true"
+        	android:layout_centerHorizontal="true"
+        	android:paddingBottom="10dp"
+        	android:visibility="invisible"/>
+
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/stirtrek_splash" 
-        android:contentDescription="@string/stir_trek_icon"/>
+        android:layout_marginTop="70dp"
+        android:contentDescription="@string/stir_trek_icon"
+        android:src="@drawable/stirtrek_splash" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imgLogo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:orientation="vertical" >
+        android:layout_marginTop="57dp"
+        android:background="@color/frost"
+        android:orientation="vertical"
+        android:padding="20dp" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/splash_text"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -36,17 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/splash_date"
-            android:textColor="@color/white"
+            android:textColor="@color/red"
             android:textSize="17sp" />
     </LinearLayout>
-
-    
-    <ProgressBar android:id="@+id/splash_busy"
-        	android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        	android:layout_alignParentBottom="true"
-        	android:layout_centerHorizontal="true"
-        	android:paddingBottom="15dp"
-        	android:visibility="invisible"/>
     
 </RelativeLayout>
