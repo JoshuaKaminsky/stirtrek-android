@@ -3,11 +3,14 @@ package com.stirtrek.activity;
 import stirtrek.activity.R;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.util.Linkify;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,6 +69,8 @@ public class SessionInfoActivity extends BaseActivity {
 		textView = (TextView)findViewById(R.id.speaker_details_name);
 		textView.setText(_speaker.Name);
 		
+		textView.setOnClickListener(speakerClickListener);
+		
 		Linkify.addLinks(textView, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
 		
 		final ImageView imageView = (ImageView)findViewById(R.id.speaker_details_picture);		
@@ -76,6 +81,8 @@ public class SessionInfoActivity extends BaseActivity {
 		} else {
 			new HttpGetImageAsyncTask(imageView).Get(Utilities.EncodeUrl(_speaker.ImageUrl).toString());
 		}
+		
+		imageView.setOnClickListener(speakerClickListener);
 		
 		ToggleButton favorite = (ToggleButton) findViewById(R.id.session_star);
 		favorite.setChecked(App.IsInterest(_session.Id));
@@ -103,5 +110,25 @@ public class SessionInfoActivity extends BaseActivity {
 				App.RefreshInterests(resolver);
 			}
 		});
+	}
+	
+	private OnClickListener speakerClickListener = new OnClickListener() {			
+		@Override
+		public void onClick(View v) {
+			goToSpeakerInfo(v);				
+		}
+	};
+	
+	private void goToSpeakerInfo(View v) {
+		//go to speaker details
+		Context context = v.getContext();
+		
+    	Intent intent = new Intent(context, SpeakerInfoActivity.class);
+    	
+    	Speaker speaker = _speaker;
+		String speakerData = JsonUtilities.getJson(speaker);		
+		intent.putExtra("SpeakerData", speakerData);
+    	
+    	context.startActivity(intent);			
 	}
 }

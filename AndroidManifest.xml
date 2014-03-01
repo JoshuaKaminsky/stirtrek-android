@@ -36,43 +36,49 @@
     	<activity android:name="com.stirtrek.activity.MainActivity"
             	  android:label="@string/app_name"
     	    	  android:configChanges="orientation"
-    	          android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+    	          android:theme="@android:style/Theme.NoTitleBar">
         </activity>
         
         <activity android:name="com.stirtrek.activity.ScheduleActivity"
         		  android:label="@string/app_name"
     	    	  android:configChanges="orientation"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">            
+                  android:theme="@android:style/Theme.NoTitleBar">            
         </activity>
         
         <activity android:name="com.stirtrek.activity.TwitterActivity"
         		  android:label="@string/app_name"
     	    	  android:configChanges="orientation"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">            
+                  android:theme="@android:style/Theme.NoTitleBar">            
         </activity>
         
         <activity android:name="com.stirtrek.activity.InfoActivity"
         		  android:label="@string/app_name"
     	    	  android:configChanges="orientation"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">            
+                  android:theme="@android:style/Theme.NoTitleBar">            
         </activity>
 
 		<activity android:name="com.stirtrek.activity.SpeakerActivity"
         		  android:label="@string/app_name"
     	    	  android:configChanges="orientation"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">            
+                  android:theme="@android:style/Theme.NoTitleBar">            
         </activity>        
         
         <activity android:name="com.stirtrek.activity.InterestsActivity"
         		  android:label="@string/app_name"
     	    	  android:configChanges="orientation"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">            
+                  android:theme="@android:style/Theme.NoTitleBar">            
         </activity> 
         
         <activity android:name="com.stirtrek.activity.SessionInfoActivity"
         		  android:label="@string/app_name"
     	    	  android:configChanges="orientation"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">            
+                  android:theme="@android:style/Theme.NoTitleBar">            
+        </activity> 
+        
+        <activity android:name="com.stirtrek.activity.SpeakerInfoActivity"
+        		  android:label="@string/app_name"
+    	    	  android:configChanges="orientation"
+                  android:theme="@android:style/Theme.NoTitleBar">            
         </activity> 
         
     </application>

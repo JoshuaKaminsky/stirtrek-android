@@ -5,16 +5,23 @@ import java.util.List;
 
 import stirtrek.activity.R;
 
+import com.stirtrek.activity.MainActivity;
+import com.stirtrek.activity.SessionInfoActivity;
+import com.stirtrek.activity.SpeakerInfoActivity;
+import com.stirtrek.activity.SplashScreen;
 import com.stirtrek.application.StirTrek.App;
 import com.stirtrek.common.SessionSorter;
 import com.stirtrek.model.Interest.Interests;
 import com.stirtrek.model.Session;
 import com.stirtrek.model.Speaker;
 import com.stirtrek.model.TimeSlot;
+import com.stirtrek.model.Track;
 
 import android.app.Dialog;
 
+import com.android.client.utilities.CollectionUtilities;
 import com.android.client.utilities.HttpGetImageAsyncTask;
+import com.android.client.utilities.JsonUtilities;
 import com.android.contract.IResultCallback;
 
 import android.content.ContentResolver;
@@ -134,5 +141,14 @@ public class SessionAdapter extends AlternatingListViewAdapter<Session> implemen
 
 	public void onClick(View v) {
 		//go to speaker details
+		Context context = v.getContext();
+		
+    	Intent intent = new Intent(context, SpeakerInfoActivity.class);
+    	
+    	Speaker speaker = (Speaker)v.getTag();
+		String speakerData = JsonUtilities.getJson(speaker);		
+		intent.putExtra("SpeakerData", speakerData);
+    	
+    	context.startActivity(intent);
 	}
 }

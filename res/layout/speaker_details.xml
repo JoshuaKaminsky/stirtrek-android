@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/background" 
+    android:background="@drawable/background"
     android:orientation="vertical" >
 
     <LinearLayout android:layout_width="fill_parent"
@@ -32,28 +31,11 @@
 				  android:textStyle="bold"
 				  android:layout_height="wrap_content"
 				  android:layout_width="fill_parent"
-			      android:text="@string/stir_trek_session"   		
+			      android:text="@string/stir_trek_speaker"   		
 				  android:layout_gravity="center"			        
 			      android:paddingRight="60dp"/>
 	    
 	</LinearLayout>
-    
-    <TextView
-        android:id="@+id/session_details_title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" 
-        android:padding="10dp"/>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="2dip"
-        android:layout_marginBottom="2dp"
-        android:background="@color/lightGrey" />
 
     <LinearLayout android:layout_height="wrap_content"
  			  	  android:layout_width="fill_parent"
@@ -80,27 +62,15 @@
  			  	  android:layout_marginRight="5dp"
  			  	  android:padding="7dp"
  			  	  android:background="@color/frost"/>   
-        
-		<ToggleButton android:id="@+id/session_star"
-		    		  android:height="50dp"
-		    		  android:width="50dp"
-			  	  	  android:layout_height="35dp"
- 			  		  android:layout_width="35dp"
- 			  		  android:layout_gravity="center" 			  	
- 			  		  android:disabledAlpha="1.0" 			  		  
- 			  		  android:textOff=""
- 			  		  android:textOn=""
- 			  		  android:focusable="false"
- 			  		  android:background="@drawable/favorite_selector"/>
     </LinearLayout>
 
-    <ScrollView android:layout_width="fill_parent"
-		        android:layout_height="fill_parent" 
-		        android:fillViewport="true"
+    <ScrollView android:layout_width="match_parent"
+		        android:layout_height="0dp" 
+		        android:layout_weight="1"
 		 		android:layout_marginTop="10dp">
 
         <TextView
-                android:id="@+id/session_details_abstract"
+                android:id="@+id/speaker_details_bio"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
