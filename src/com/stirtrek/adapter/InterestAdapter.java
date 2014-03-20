@@ -30,6 +30,9 @@ public class InterestAdapter extends BaseArrayAdapter<Session> {
 		TextView textView = (TextView)view.findViewById(R.id.interest_name);
 		textView.setText(session.Name);
 		
+		textView = (TextView)view.findViewById(R.id.interest_location);	
+		textView.setText(track.Location);
+		
 		textView = (TextView)view.findViewById(R.id.interest_track);	
 		if(track != null) {	
 			textView.setText(track.Name);
