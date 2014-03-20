@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.client.utilities.CollectionUtilities;
 import com.android.client.utilities.JsonUtilities;
@@ -63,9 +65,15 @@ public class ViewPagerAdapter extends PagerAdapter implements ITitleProvider, On
     public Object instantiateItem(View pager, int position)
     {   
     	LayoutInflater inflater = (LayoutInflater)_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    	ListView schedule = (ListView)inflater.inflate(R.layout.schedule, null);
+    	
+    	LinearLayout schedule = (LinearLayout)inflater.inflate(R.layout.schedule, null);
     	
     	Track selectedTrack =_tracks[position];    	    	
+    	
+    	TextView location = (TextView)schedule.findViewById(R.id.schedule_location);
+    	location.setText(selectedTrack.Location);
+    	
+    	ListView listView = (ListView)schedule.findViewById(R.id.schedule_list_view);
     	
     	List<Session> sessions = new ArrayList<Session>();
 		for(Session session : _sessions)
@@ -82,16 +90,16 @@ public class ViewPagerAdapter extends PagerAdapter implements ITitleProvider, On
 		if(sessions.isEmpty())
 			return null;
 		
-		schedule.setAdapter(
+		listView.setAdapter(
 				new SessionAdapter(
 						_context,
 						sessions.toArray(new Session[sessions.size()]), 
 						_timeSlots, 
 						_speakers));
 
-		schedule.setClickable(true);
-		schedule.setFocusable(true);
-		schedule.setOnItemClickListener(this);		
+		listView.setClickable(true);
+		listView.setFocusable(true);
+		listView.setOnItemClickListener(this);		
 		
 		((ViewPager) pager).addView(schedule, 0);
 		
@@ -101,7 +109,7 @@ public class ViewPagerAdapter extends PagerAdapter implements ITitleProvider, On
     @Override
     public void destroyItem(View pager, int position, Object view)
     {
-        ((ViewPager)pager).removeView((ListView)view);
+        ((ViewPager)pager).removeView((View)view);
     }
  
     @Override

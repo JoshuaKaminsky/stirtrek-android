@@ -24,9 +24,11 @@ import com.stirtrek.application.StirTrek.App;
 import com.stirtrek.model.Session;
 import com.stirtrek.model.Speaker;
 import com.stirtrek.model.Interest.Interests;
+import com.stirtrek.model.Track;
 
 public class SessionInfoActivity extends BaseActivity {
 
+	private Track _track;
 	private Session _session;
 	private Speaker _speaker;
 	
@@ -39,10 +41,12 @@ public class SessionInfoActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
+		String trackData = getIntent().getExtras().getString("TrackData");
 		String sessionData = getIntent().getExtras().getString("SessionData");
 		String speakerData = getIntent().getExtras().getString("SpeakerData");
-		
+
+		_track = JsonUtilities.parseJson(trackData, Track.class);
 		_session = JsonUtilities.parseJson(sessionData, Session.class);
 		_speaker = JsonUtilities.parseJson(speakerData, Speaker.class);
 		
@@ -65,6 +69,9 @@ public class SessionInfoActivity extends BaseActivity {
 		
 		textView = (TextView)findViewById(R.id.session_details_abstract);
 		textView.setText(Html.fromHtml(_session.Abstract));
+		
+		textView = (TextView)findViewById(R.id.session_location);
+		textView.setText(_track.Location);
 		
 		textView = (TextView)findViewById(R.id.speaker_details_name);
 		textView.setText(_speaker.Name);

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/background" 
-    android:orientation="vertical" >
+    android:background="@drawable/background" >
 
-    <LinearLayout android:layout_width="fill_parent"
+    <LinearLayout android:id="@+id/linearLayout1"
+         		  android:layout_width="fill_parent"
 	    		  android:layout_height="wrap_content"
 	    		  android:orientation="horizontal"
 	    		  android:padding="5dp"
@@ -47,18 +46,42 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" 
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:layout_below="@id/linearLayout1"/>
 
-    <TextView
+    <TextView android:id="@+id/divider"
         android:layout_width="fill_parent"
         android:layout_height="2dip"
         android:layout_marginBottom="2dp"
-        android:background="@color/lightGrey" />
+        android:background="@color/lightGrey" 
+        android:layout_below="@id/session_details_title"/>
+    
+    <TextView
+        android:id="@+id/session_location"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+		android:textSize="18sp"
+		android:textColor="@color/white" 
+		android:gravity="center"
+		android:textStyle="bold"
+		android:layout_marginTop="2dp"
+        android:layout_marginBottom="4dp"
+        android:layout_below="@id/divider"/>
+    
+    <TextView android:id="@+id/divider2"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_marginBottom="2dp"
+        android:background="@color/lightGrey" 
+        android:layout_below="@id/session_location"/>
 
-    <LinearLayout android:layout_height="wrap_content"
+    <LinearLayout android:id="@+id/linearLayout2"
+        		  android:layout_height="wrap_content"
  			  	  android:layout_width="fill_parent"
  			  	  android:orientation="horizontal"
- 			  	  android:layout_margin="2dp"> 		 	
+ 			  	  android:layout_margin="2dp"
+        		  android:layout_below="@id/divider2"> 		 	
  	
 	    <ImageView android:id="@+id/speaker_details_picture"
 		           android:layout_width="75dp"
@@ -94,10 +117,13 @@
  			  		  android:background="@drawable/favorite_selector"/>
     </LinearLayout>
 
-    <ScrollView android:layout_width="fill_parent"
-		        android:layout_height="fill_parent" 
-		        android:fillViewport="true"
-		 		android:layout_marginTop="10dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_marginTop="10dp"
+        android:fillViewport="true" >
 
         <TextView
                 android:id="@+id/session_details_abstract"
@@ -110,4 +136,4 @@
         
     </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>

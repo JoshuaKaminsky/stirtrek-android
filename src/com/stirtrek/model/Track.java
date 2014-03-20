@@ -18,6 +18,8 @@ public class Track implements IIdentifier, INamed{
 	
 	public String Name;
 	
+	public String Location;
+	
 	public int GetId() {
 		return Id;
 	}
